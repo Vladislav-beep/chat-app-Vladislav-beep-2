@@ -29,10 +29,11 @@ final class Logger {
     }
     
     func logPrint(method: String) {
+        
+        /// Чтобы отключить логи перед компиляцией, нужно поменять bild configuration на release
         #if DEBUG
         print("Application moved from: \(previousState) to \(currentState), method name: \(method)")
         previousState = currentState
         #endif
-        
     }
 }
