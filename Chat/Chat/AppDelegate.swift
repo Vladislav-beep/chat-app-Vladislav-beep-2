@@ -20,23 +20,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     // MARK: UISceneSession Lifecycle

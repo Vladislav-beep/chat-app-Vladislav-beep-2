@@ -19,22 +19,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        logger.logPrint(methodName: #function)
+       // logger.logPrint(methodName: #function)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        logger.logPrint(methodName: #function)
+      //  logger.logPrint(methodName: #function)
     }
 }
