@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    private let logger = Logger.shared
+    
     // MARK: UI
     
     private lazy var imagePicker: UIImagePickerController = {
@@ -31,13 +33,42 @@ class ProfileViewController: UIViewController {
         setupAppearance()
         imagePicker.delegate = self
         
+        logger.logPrint(methodName: #function)
         print("frame from viewDidLoad: \(saveButton.frame)")
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          logger.logPrint(methodName: #function)
+      }
+      
+      override func viewWillLayoutSubviews() {
+          logger.logPrint(methodName: #function)
+      }
+      
+      override func viewDidLayoutSubviews() {
+          logger.logPrint(methodName: #function)
+      }
    
-     
     override func viewDidAppear(_ animated: Bool) {
+        logger.logPrint(methodName: #function)
         print("frame from viewDidAppear: \(saveButton.frame)")
         // Frame различается, т.к. метод viewDidload берет данные из storyboard (т.е. frame для iphone SE). Auto Layout срабатывает уже после метода viewDidload и frame изменяется для экрана iphone X.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           logger.logPrint(methodName: #function)
+       }
+       
+       override func viewDidDisappear(_ animated: Bool) {
+           super.viewDidDisappear(animated)
+           logger.logPrint(methodName: #function)
+       }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+      //  print("frame from init: \(saveButton.frame)")
     }
     
     // MARK: Private functions
@@ -73,9 +104,11 @@ class ProfileViewController: UIViewController {
     }
     
     private func takeInitials() -> String {
-        let initials = "\(fullNameLabel.text ?? ""))".components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first ?? "a")") + "\($1.first ?? "a")" }
+        let formatter = PersonNameComponentsFormatter()
+        guard let components = formatter.personNameComponents(from: "\(fullNameLabel.text ?? "")") else { return ""}
+            formatter.style = .abbreviated
         
-        return initials
+        return formatter.string(from: components)
     }
     
     // MARK: IB Actions

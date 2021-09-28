@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sizonov Vladislav" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh1-Mq-Vs6">
-                                <rect key="frame" x="70.5" y="381" width="179.5" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vladislav Sizonov" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uh1-Mq-Vs6">
+                                <rect key="frame" x="70" y="381" width="180" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="29" id="5uk-Kg-VYm"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="179" id="c9t-IZ-nM0"/>
@@ -82,16 +82,16 @@
                             <constraint firstItem="Gnt-4s-Y9c" firstAttribute="top" secondItem="Uh1-Mq-Vs6" secondAttribute="bottom" constant="23" id="05J-ok-sDc"/>
                             <constraint firstItem="Uh1-Mq-Vs6" firstAttribute="top" secondItem="gvm-9x-Khx" secondAttribute="bottom" constant="20" id="0BI-uk-g0R"/>
                             <constraint firstItem="3Xm-Jc-2fC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0Q1-8Y-YoK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gvm-9x-Khx" secondAttribute="trailing" constant="40" id="3Xz-aE-trK"/>
                             <constraint firstItem="GdQ-sc-wdm" firstAttribute="centerX" secondItem="g5y-Ms-xxy" secondAttribute="centerX" id="3oA-Lc-vmT"/>
-                            <constraint firstItem="gvm-9x-Khx" firstAttribute="leading" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="240" id="CG5-ll-T0a"/>
                             <constraint firstItem="GdQ-sc-wdm" firstAttribute="centerY" secondItem="g5y-Ms-xxy" secondAttribute="centerY" id="HHU-RU-gjf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3Xm-Jc-2fC" secondAttribute="bottom" constant="27.5" id="LcD-Yo-g67"/>
                             <constraint firstItem="Uh1-Mq-Vs6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="M2g-U3-3QJ"/>
                             <constraint firstItem="g5y-Ms-xxy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VQ2-pT-Ygm"/>
                             <constraint firstItem="gvm-9x-Khx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="230" id="gDf-Qb-5kq"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gvm-9x-Khx" secondAttribute="trailing" constant="40" id="mgQ-wt-IKX"/>
                             <constraint firstItem="Gnt-4s-Y9c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vY9-I4-J2d"/>
                             <constraint firstItem="g5y-Ms-xxy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="wuz-3J-rH5"/>
+                            <constraint firstItem="gvm-9x-Khx" firstAttribute="leading" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="240" id="xlL-aa-3RL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Profile" id="inB-Rc-Z6Y"/>
