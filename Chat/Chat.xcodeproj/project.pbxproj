@@ -58,16 +58,48 @@
 		B916F6F926F9DE7F001E2DF0 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				B916F6FA26F9DE7F001E2DF0 /* AppDelegate.swift */,
-				B916F6FC26F9DE7F001E2DF0 /* SceneDelegate.swift */,
-				B916F6FE26F9DE7F001E2DF0 /* ProfileViewController.swift */,
-				B916F70026F9DE7F001E2DF0 /* Main.storyboard */,
+				B9C84B0A2704525F00ED8534 /* Services */,
+				B9C84B082704521800ED8534 /* Modules */,
+				B9C84B07270451EA00ED8534 /* Storyboards */,
+				B9C84B06270451B200ED8534 /* Supporting files */,
 				B916F70326F9DE83001E2DF0 /* Assets.xcassets */,
-				B916F70526F9DE83001E2DF0 /* LaunchScreen.storyboard */,
-				B916F70826F9DE83001E2DF0 /* Info.plist */,
-				B9BA374A26FA0D7D0037A8A5 /* Logger.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		B9C84B06270451B200ED8534 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				B916F6FC26F9DE7F001E2DF0 /* SceneDelegate.swift */,
+				B916F6FA26F9DE7F001E2DF0 /* AppDelegate.swift */,
+				B916F70826F9DE83001E2DF0 /* Info.plist */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		B9C84B07270451EA00ED8534 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				B916F70526F9DE83001E2DF0 /* LaunchScreen.storyboard */,
+				B916F70026F9DE7F001E2DF0 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		B9C84B082704521800ED8534 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				B916F6FE26F9DE7F001E2DF0 /* ProfileViewController.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		B9C84B0A2704525F00ED8534 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B9BA374A26FA0D7D0037A8A5 /* Logger.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,7 +323,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Chat/Info.plist;
+				INFOPLIST_FILE = "Chat/Supporting files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -310,7 +342,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Chat/Info.plist;
+				INFOPLIST_FILE = "Chat/Supporting files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

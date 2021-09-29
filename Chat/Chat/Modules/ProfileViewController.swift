@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    // MARK: Dependencies
+    
     private let logger = Logger.shared
     
     // MARK: UI
@@ -17,7 +19,7 @@ class ProfileViewController: UIViewController {
         let imagePickerController = UIImagePickerController()
         return imagePickerController
     }()
-  
+    
     // MARK: IB Outlets
     
     @IBOutlet weak var saveButton: UIButton!
@@ -38,18 +40,18 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-          super.viewWillAppear(animated)
-          logger.logPrint(methodName: #function)
-      }
-      
-      override func viewWillLayoutSubviews() {
-          logger.logPrint(methodName: #function)
-      }
-      
-      override func viewDidLayoutSubviews() {
-          logger.logPrint(methodName: #function)
-      }
-   
+        super.viewWillAppear(animated)
+        logger.logPrint(methodName: #function)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        logger.logPrint(methodName: #function)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        logger.logPrint(methodName: #function)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         logger.logPrint(methodName: #function)
         print("frame from viewDidAppear: \(saveButton.frame)")
@@ -57,18 +59,19 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-           super.viewWillDisappear(animated)
-           logger.logPrint(methodName: #function)
-       }
-       
-       override func viewDidDisappear(_ animated: Bool) {
-           super.viewDidDisappear(animated)
-           logger.logPrint(methodName: #function)
-       }
-
+        super.viewWillDisappear(animated)
+        logger.logPrint(methodName: #function)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        logger.logPrint(methodName: #function)
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-      //  print("frame from init: \(saveButton.frame)")
+        //  print("frame from init: \(saveButton.frame)")
+        // Фрейм не печатается, т.к. view и ее subview еще не загружены в память
     }
     
     // MARK: Private functions
@@ -106,7 +109,7 @@ class ProfileViewController: UIViewController {
     private func takeInitials() -> String {
         let formatter = PersonNameComponentsFormatter()
         guard let components = formatter.personNameComponents(from: "\(fullNameLabel.text ?? "")") else { return ""}
-            formatter.style = .abbreviated
+        formatter.style = .abbreviated
         
         return formatter.string(from: components)
     }
@@ -119,7 +122,7 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-   
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             initialsLabel.text = ""

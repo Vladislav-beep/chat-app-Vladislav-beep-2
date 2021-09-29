@@ -94,7 +94,9 @@
                             <constraint firstItem="gvm-9x-Khx" firstAttribute="leading" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="240" id="xlL-aa-3RL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="My Profile" id="inB-Rc-Z6Y"/>
+                    <navigationItem key="navigationItem" title="My Profile" id="inB-Rc-Z6Y">
+                        <barButtonItem key="rightBarButtonItem" title="Close" id="PmL-qj-pfp"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="ProfileImageView" destination="g5y-Ms-xxy" id="Z2W-cJ-gEq"/>
                         <outlet property="fullNameLabel" destination="Uh1-Mq-Vs6" id="9O2-rX-nkX"/>
