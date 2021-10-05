@@ -87,14 +87,11 @@ class ProfileViewController: UIViewController {
         let alert = UIAlertController(title: "Profile photo", message: nil, preferredStyle: .actionSheet)
         
         let actionPhoto = UIAlertAction(title: "Photo library", style: .default) { (alert) in
-            self.imagePicker.sourceType = .photoLibrary
-            self.imagePicker.allowsEditing = true
-            self.present(self.imagePicker, animated: true)
+            self.chooseImagePicker(source: .photoLibrary)
         }
         
         let actionCamera = UIAlertAction(title: "Take photo", style: .default) { (alert) in
-            self.imagePicker.sourceType = .camera
-            self.present(self.imagePicker, animated: true)
+            self.chooseImagePicker(source: .camera)
         }
         
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -119,18 +116,35 @@ class ProfileViewController: UIViewController {
     @IBAction func editButtonPressed(_ sender: UIButton) {
         showAlert()
     }
+    
+    @IBAction func closeButtonPressed() {
+        dismiss(animated: true)
+    }
+    
 }
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            initialsLabel.text = ""
-            profileImageView.image = pickedImage
-        }
+        
+        profileImageView.image = info[.editedImage] as? UIImage
+        initialsLabel.text = ""
+        
         dismiss(animated: true)
     }
+    
+    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(source) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = source
+            
+            present(imagePicker, animated: true)
+        }
+    }
 }
+    
 
 
 
