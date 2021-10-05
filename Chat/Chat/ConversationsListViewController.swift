@@ -54,8 +54,7 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         let cell = tableView.dequeueReusableCell(withIdentifier: "conversationsListCell", for: indexPath) as? ConversationsListCell
         var user: PersonChat?
         indexPath.section == 0 ? (user = onlineUsers[indexPath.row]) : ( user = oflineUsers[indexPath.row])
-        
-//        user = users[indexPath.row]
+        //        user = users[indexPath.row]
         
         guard let notNilUser = user else { return UITableViewCell() }
         cell?.clearCell()
@@ -64,7 +63,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     }
     
     // MARK: - Navigation
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -91,13 +89,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.showsCancelButton = false
-            searchBar.text = ""
-            searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
         
         users = PersonChat.getPersonChat()
         tableView.reloadData()
     }
     
- 
 }
