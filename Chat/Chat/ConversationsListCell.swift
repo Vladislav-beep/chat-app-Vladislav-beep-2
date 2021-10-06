@@ -56,17 +56,20 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
 
     func configureCell(chat: PersonChat?) {
         name = chat?.name
-
         online = chat?.online ?? false
         hasUnreadMessages = chat?.hasUnreadMessages ?? false
+        
         checkCurrentBackground()
+        
         if let lastMessage = chat?.messages.last {
         message = lastMessage?.messagetext
         date = lastMessage?.dateOfCreation
         }
-        chechUnreadMesage()
-        chechMessage()
+        
         setValues()
+        chechUnreadMesage()
+        checkMessage()
+        
     }
 
     func setValues() {
@@ -83,10 +86,14 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         messageLabel.text = nil
         dateLabel.text = nil
     }
+    
+    
 
-    func chechMessage() {
+    func checkMessage() {
+        
         if message == nil {
-        messageLabel.text = "Not message yet"
+        messageLabel.text = "No messages yet"
+        messageLabel.font = UIFont(name: "Didot", size: 17)
         } else {
             messageLabel.text = message
         }

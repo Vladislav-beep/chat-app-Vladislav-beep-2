@@ -10,14 +10,12 @@ import UIKit
 class ConversationsListViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
     private var users = PersonChat.getPersonChat()
     private let sectionNames = ["Online", "History"]
     
     private var filterdUsers: [PersonChat]?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+
     
     // MARK: - Prepare Data Source
     
@@ -25,7 +23,7 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         users.filter {$0.online }
     }
     
-    private var oflineUsers: [PersonChat] {
+    private var offlineUsers: [PersonChat] {
         users.filter {!$0.online }
     }
     
@@ -46,16 +44,16 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         if section == 0 {
             return onlineUsers.count
         } else {
-            return oflineUsers.count
+            return offlineUsers.count
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "conversationsListCell", for: indexPath) as? ConversationsListCell
-        var user: PersonChat?
-        indexPath.section == 0 ? (user = onlineUsers[indexPath.row]) : ( user = oflineUsers[indexPath.row])
-        //        user = users[indexPath.row]
         
+        var user: PersonChat?
+        indexPath.section == 0 ? (user = onlineUsers[indexPath.row]) : ( user = offlineUsers[indexPath.row])
+       
         guard let notNilUser = user else { return UITableViewCell() }
         cell?.clearCell()
         cell?.configureCell(chat: notNilUser)
@@ -73,11 +71,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         if selectedIndexPath?.section == 0 {
             user = onlineUsers[selectedIndexPath?.row ?? 0]
         } else {
-            user = oflineUsers[selectedIndexPath?.row ?? 0]
+            user = offlineUsers[selectedIndexPath?.row ?? 0]
         }
-        conversationVC.user = user
+        conversationVC.setUser(personChat: user)
     }
     
+    // MARK: - Search Bar
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.showsCancelButton = true
