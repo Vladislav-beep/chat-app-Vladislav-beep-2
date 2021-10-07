@@ -69,18 +69,18 @@ final class ChatMessageCell: UITableViewCell, MessageCellConfigurationProtocol {
         addSubview(bubbleView)
         addSubview(messageLabel)
         NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: 32),
-            messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
+            messageLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            messageLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             messageLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width * 3 / 4),
             
-            bubbleView.topAnchor.constraint(equalTo: messageLabel.topAnchor, constant: -16),
-            bubbleView.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor, constant: -16),
-            bubbleView.bottomAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 16),
-            bubbleView.trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 16),
+            bubbleView.topAnchor.constraint(equalTo: messageLabel.topAnchor, constant: -8),
+            bubbleView.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor, constant: -8),
+            bubbleView.bottomAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 8),
+            bubbleView.trailingAnchor.constraint(equalTo: messageLabel.trailingAnchor, constant: 8),
         ])
-        leadingConstraint = messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32)
+        leadingConstraint = messageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
         leadingConstraint?.isActive = false
-        trailingConstraint = messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32)
+        trailingConstraint = messageLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         trailingConstraint?.isActive = true
     }
     

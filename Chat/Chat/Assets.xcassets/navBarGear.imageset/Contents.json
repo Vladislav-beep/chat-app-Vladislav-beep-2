@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "GetDirection@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "GetDirection@3x.png",
+      "filename" : "icons8-настройки (1).svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -108,14 +108,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Tinkoff Chat" id="NFM-Yf-loE">
                         <barButtonItem key="backBarButtonItem" title=" " id="xsQ-zA-ZYx"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="i3t-rJ-WeR">
-                            <connections>
-                                <segue destination="BYZ-38-t0r" kind="presentation" id="1fL-LS-HoK"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="navBarGear" largeContentSizeImage="NavigationBAr Gear" id="yr5-Zd-QTM"/>
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="XLh-8m-cxk" id="opk-lI-UFl"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="showProfile" modalPresentationStyle="automatic" id="BEv-lF-RsM"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRC-5s-BOr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -302,6 +299,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NavigationBAr Gear" width="56" height="44.666667938232422"/>
+        <image name="navBarGear" width="25" height="25"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

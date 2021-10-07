@@ -32,6 +32,8 @@ class ConversationViewController: UITableViewController {
         return view
     }()
     
+
+    
    private var user: PersonChat?
     
     override func viewDidLoad() {
