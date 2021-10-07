@@ -23,16 +23,33 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
 
-    var name: String?
-    var message: String?
-    var date: Date?
-    var online: Bool = false
-    var hasUnreadMessages: Bool = false
+    var name: String? {
+        didSet {
+            nameLable.text = name
+            profileImage.image = UIImage(named: "profile image")
+        }
+    }
+    var message: String? {
+        didSet {
+            messageLabel.text = message
+        }
+    }
+    var date: Date? {
+        didSet {
+            dateLabel.text = getdate()
+        }
+    }
+    var online: Bool = false {
+        didSet {
+            checkOnline()
+        }
+    }
+    var hasUnreadMessages: Bool = false {
+        didSet {
+            checkUnreadMesage()
+        }
+    }
 
-    //    init() {
-    //        super.init(style: .default, reuseIdentifier: "conversationsListCell")
-    //
-    //    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -42,13 +59,13 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         isOnlineIndicator.layer.borderColor = UIColor.white.cgColor
     }
 
-    private func checkCurrentBackground() {
+    private func checkOnline() {
         if online {
             isOnlineIndicator.isHidden = false
         }
     }
 
-    private func chechUnreadMesage() {
+    private func checkUnreadMesage() {
         if hasUnreadMessages {
             messageLabel.font = .boldSystemFont(ofSize: 17)
         }
@@ -58,28 +75,16 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         name = chat?.name
         online = chat?.online ?? false
         hasUnreadMessages = chat?.hasUnreadMessages ?? false
-        
-        checkCurrentBackground()
-        
+    
         if let lastMessage = chat?.messages.last {
         message = lastMessage?.messagetext
         date = lastMessage?.dateOfCreation
         }
         
-        setValues()
-        chechUnreadMesage()
-        checkMessage()
-        
+       checkMessage()
     }
-
-    func setValues() {
-        nameLable.text = name
-        messageLabel.text = message
-        dateLabel.text = getdate()
-        profileImage.image = UIImage(named: "profile image")
-    }
-
-    func clearCell() {
+    
+    override func prepareForReuse() {
         isOnlineIndicator.isHidden = true
         profileImage.image = nil
         nameLable.text = nil
@@ -87,8 +92,6 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         dateLabel.text = nil
     }
     
-    
-
     func checkMessage() {
         
         if message == nil {
@@ -99,11 +102,7 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         }
     }
 
-    //    required init?(coder: NSCoder) {
-    //        super.init(coder: coder)
-    //    }
-
-    func getdate() -> String {
+   private func getdate() -> String {
         
         var stringDate = ""
             let dateFormatter = DateFormatter()
@@ -118,5 +117,4 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         }
         return stringDate
     }
-
 }

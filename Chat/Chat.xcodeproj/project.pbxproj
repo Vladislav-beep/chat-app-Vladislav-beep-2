@@ -68,16 +68,13 @@
 		B916F6F926F9DE7F001E2DF0 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				B9C84B0A2704525F00ED8534 /* Services */,
-				B9C84B082704521800ED8534 /* Modules */,
 				B9C84B07270451EA00ED8534 /* Storyboards */,
+				B9C84B082704521800ED8534 /* Modules */,
+				B9F7C3A9270EF7CF00DCD83E /* Custom cells */,
+				B9F7C3A8270EF7C000DCD83E /* Models */,
+				B9C84B0A2704525F00ED8534 /* Services */,
 				B9C84B06270451B200ED8534 /* Supporting files */,
 				B916F70326F9DE83001E2DF0 /* Assets.xcassets */,
-				B92ABBC3270AF328005F0B2A /* ConversationsListViewController.swift */,
-				B92ABBC6270AF367005F0B2A /* ConversationViewController.swift */,
-				B92ABBC9270AF54F005F0B2A /* ConversationsListCell.swift */,
-				B92ABBCD270B078B005F0B2A /* PersonChat.swift */,
-				B9108B5A270CAA2F00300B52 /* MessageCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -105,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				B916F6FE26F9DE7F001E2DF0 /* ProfileViewController.swift */,
+				B92ABBC3270AF328005F0B2A /* ConversationsListViewController.swift */,
+				B92ABBC6270AF367005F0B2A /* ConversationViewController.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -115,6 +114,23 @@
 				B9BA374A26FA0D7D0037A8A5 /* Logger.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B9F7C3A8270EF7C000DCD83E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B92ABBCD270B078B005F0B2A /* PersonChat.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B9F7C3A9270EF7CF00DCD83E /* Custom cells */ = {
+			isa = PBXGroup;
+			children = (
+				B9108B5A270CAA2F00300B52 /* MessageCell.swift */,
+				B92ABBC9270AF54F005F0B2A /* ConversationsListCell.swift */,
+			);
+			path = "Custom cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -24,8 +24,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         return button
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -108,7 +106,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         indexPath.section == 0 ? (user = onlineUsers[indexPath.row]) : ( user = offlineUsers[indexPath.row])
         
         guard let notNilUser = user else { return UITableViewCell() }
-        cell?.clearCell()
         cell?.configureCell(chat: notNilUser)
         return cell ?? UITableViewCell()
     }
@@ -147,5 +144,4 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         users = PersonChat.getPersonChat()
         tableView.reloadData()
     }
-    
 }
