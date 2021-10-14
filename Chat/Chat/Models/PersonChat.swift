@@ -18,7 +18,7 @@ struct PersonChat {
    static func getPersonChat() -> [PersonChat] {
         
     [
-        PersonChat(name: "Elon Musk",
+        PersonChat(name: "Elon Muskhdrctucicciciciycycycyiyci",
                    messages: [
                     Message(messagetext: "What’s Twitter?", dateOfCreation: Date(), isIncomming: false),
                     Message(messagetext: "What’s Twitter? Okay, let’s start with Twitter. I have an obsession with Twitter, too, and an addiction. What happens with you and Twitter?", dateOfCreation: Date(), isIncomming: true),

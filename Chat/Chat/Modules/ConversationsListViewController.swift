@@ -45,11 +45,38 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         showImage(false)
     }
     
+    @IBAction func settingsButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "showSwiftTheme", sender: nil)
+    }
+    
     
     @objc private func imageTapped() {
         performSegue(withIdentifier: "showProfile", sender: nil)
     }
     
+    func logThemeChanging(selectedTheme: UIColor) {
+        print("Выбранная тема: \(getColorName(color: selectedTheme))")
+    }
+    
+    private func getColorName(color: UIColor) -> String {
+        switch color {
+        case .red:
+            return "Красная"
+        case .green:
+            return "Зеленая"
+        case .white:
+            return "Светлая"
+        case .black:
+            return "Темная"
+        case .yellow:
+            return "Шампань"
+        default : return ""
+        }
+    }
+    
+    @IBAction func themeButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "showObjcTheme", sender: self)
+    }
     // MARK: - Prepare Data Source
     
     private var onlineUsers: [PersonChat] {
@@ -90,7 +117,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         sectionNames.count
     }
     
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return onlineUsers.count
@@ -114,16 +140,27 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let selectedIndexPath = tableView.indexPathForSelectedRow
-        guard let conversationVC = segue.destination as? ConversationViewController else { return }
-        var user: PersonChat?
+        if segue.identifier  == "showObjcTheme" {
+            guard let destination = segue.destination as? ThemesViewController else { return }
+            destination.delegate = self
+        } else if segue.identifier == "showSwiftTheme" {
+            guard let destination = segue.destination as? ThemesSwiftViewController else { return }
+            destination.callBack = { [weak self] color in
+                self?.logThemeChanging(selectedTheme: color)
+            }
         
-        if selectedIndexPath?.section == 0 {
-            user = onlineUsers[selectedIndexPath?.row ?? 0]
-        } else {
-            user = offlineUsers[selectedIndexPath?.row ?? 0]
+        } else  {
+            let selectedIndexPath = tableView.indexPathForSelectedRow
+            guard let conversationVC = segue.destination as? ConversationViewController else { return }
+            var user: PersonChat?
+            
+            if selectedIndexPath?.section == 0 {
+                user = onlineUsers[selectedIndexPath?.row ?? 0]
+            } else {
+                user = offlineUsers[selectedIndexPath?.row ?? 0]
+            }
+            conversationVC.setUser(personChat: user)
         }
-        conversationVC.setUser(personChat: user)
     }
     
     // MARK: - Search Bar
@@ -143,5 +180,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         searchBar.resignFirstResponder()
         users = PersonChat.getPersonChat()
         tableView.reloadData()
+    }
+}
+
+extension ConversationsListViewController: ThemesViewControllerDelegateProtocol {
+    
+    func themesViewController(_ controller: ThemesViewController, didSelectTheme selectedTheme: UIColor) {
+        logThemeChanging(selectedTheme: selectedTheme)
     }
 }

@@ -22,6 +22,7 @@ class ConversationViewController: UITableViewController {
         let label = UILabel()
         label.text = user?.name
         label.textAlignment = .left
+        label.textColor = Theme.current.navLabelColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
