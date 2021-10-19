@@ -12,6 +12,7 @@ class ProfileViewController: UIViewController {
     // MARK: Dependencies
     
     private let logger = Logger.shared
+    let localStorageManager = LocalStorageManager()
     
     // MARK: UI
     
@@ -22,9 +23,17 @@ class ProfileViewController: UIViewController {
     
     // MARK: IB Outlets
     
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet var editProfileImageButton: UIButton!
+    @IBOutlet var saveOperationsButton: UIButton!
+    @IBOutlet var saveGCDButton: UIButton!
+    @IBOutlet var cancelButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
+    
     @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var fullNameLabel: UILabel!
+    @IBOutlet var fullNameTextField: UITextField!
+    @IBOutlet var descriptionTextView: UITextView!
+    
+    @IBOutlet var textViewPlaceholderLabel: UILabel!
     @IBOutlet weak var initialsLabel: UILabel!
     
     // MARK: ViewController Lifecycle
@@ -34,9 +43,19 @@ class ProfileViewController: UIViewController {
         
         setupAppearance()
         imagePicker.delegate = self
+        descriptionTextView.delegate = self
         
         logger.logPrint(methodName: #function)
-        print("frame from viewDidLoad: \(saveButton.frame)")
+        print("frame from viewDidLoad: \(editButton.frame)")
+        
+        fullNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        
+        fullNameTextField.text = localStorageManager.readFromLocalFile(from: "fullName")
+        profileImageView.image = localStorageManager.downloadImageFromLocalFile()
+        
+        if profileImageView.image != nil {
+            initialsLabel.isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +73,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         logger.logPrint(methodName: #function)
-        print("frame from viewDidAppear: \(saveButton.frame)")
+        print("frame from viewDidAppear: \(editButton.frame)")
         // Frame различается, т.к. метод viewDidload берет данные из storyboard (т.е. frame для iphone SE). Auto Layout срабатывает уже после метода viewDidload и frame изменяется для экрана iphone X.
     }
     
@@ -79,9 +98,26 @@ class ProfileViewController: UIViewController {
     private func setupAppearance() {
         profileImageView.backgroundColor = UIColor(red: 228/255, green: 232/255, blue: 43/255, alpha: 1)
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
-        saveButton.layer.cornerRadius = 10
-        initialsLabel.text = takeInitials()
+        editButton.layer.cornerRadius = 10
+        
+        cancelButton.layer.cornerRadius = 8
+        saveGCDButton.layer.cornerRadius = 8
+        saveOperationsButton.layer.cornerRadius = 8
+        descriptionTextView.layer.cornerRadius = 8
+        
+        editProfileImageButton.isEnabled = false
+        cancelButton.isHidden = true
+        saveGCDButton.isHidden = true
+        saveOperationsButton.isEnabled = false
+        saveGCDButton.isEnabled = false
+        saveOperationsButton.isHidden = true
+        fullNameTextField.isEnabled = false
+        
+        
+       // initialsLabel.text = takeInitials()
     }
+    
+   
     
     private func showAlert() {
         let alert = UIAlertController(title: "Profile photo", message: nil, preferredStyle: .actionSheet)
@@ -103,18 +139,53 @@ class ProfileViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func takeInitials() -> String {
-        let formatter = PersonNameComponentsFormatter()
-        guard let components = formatter.personNameComponents(from: "\(fullNameLabel.text ?? "")") else { return ""}
-        formatter.style = .abbreviated
-        
-        return formatter.string(from: components)
-    }
+//    private func takeInitials() -> String {
+//        let formatter = PersonNameComponentsFormatter()
+//        guard let components = formatter.personNameComponents(from: "\(fullNameLabel.text ?? "")") else { return ""}
+//        formatter.style = .abbreviated
+//
+//        return formatter.string(from: components)
+//    }
     
     // MARK: IB Actions
     
-    @IBAction func editButtonPressed(_ sender: UIButton) {
+    @IBAction func editProfileImageButtonPressed(_ sender: UIButton) {
         showAlert()
+        saveGCDButton.isEnabled = true
+        saveOperationsButton.isEnabled = true
+    }
+    
+    @IBAction func editButton(_ sender: UIButton) {
+        cancelButton.isHidden = false
+        saveGCDButton.isHidden = false
+        saveOperationsButton.isHidden = false
+        editProfileImageButton.isEnabled = true
+        fullNameTextField.isEnabled = true
+        editButton.isHidden = true
+        fullNameTextField.becomeFirstResponder()
+    
+    }
+    
+    @IBAction func cancelButtonPressed(_ sender: UIButton) {
+        cancelButton.isHidden = true
+        saveGCDButton.isHidden = true
+        saveOperationsButton.isHidden = true
+        editProfileImageButton.isEnabled = false
+        fullNameTextField.isEnabled = false
+        editButton.isHidden = false
+        
+        fullNameTextField.text = localStorageManager.readFromLocalFile(from: "fullName")
+        profileImageView.image = localStorageManager.downloadImageFromLocalFile()
+        //подгрузка картинки и текста
+    }
+    
+    
+    @IBAction func saveGCDButtonPressed(_ sender: UIButton) {
+        localStorageManager.writeToLocalFile(writeString: fullNameTextField.text ?? "", fileName: "fullName")
+        localStorageManager.saveProfileImageToLocalFile(image: profileImageView.image ?? UIImage())
+    }
+    
+    @IBAction func saveOperationsButtonPressed(_ sender: UIButton) {
     }
     
     @IBAction func closeButtonPressed() {
@@ -141,6 +212,41 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             imagePicker.sourceType = source
             
             present(imagePicker, animated: true)
+        }
+    }
+}
+
+extension ProfileViewController: UITextViewDelegate {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
+    
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if textView.text.count != 0 {
+//            textViewPlaceholderLabel.isHidden = true
+//        }
+//
+//    }
+    
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if textView.text.count != 0 {
+//                   textViewPlaceholderLabel.isHidden = true
+//               }
+//        return true
+//    }
+}
+
+extension ProfileViewController: UITextFieldDelegate {
+    
+    @objc private func textFieldChanged() {
+        if fullNameTextField.text?.isEmpty == false {
+            saveGCDButton.isEnabled = true
+            saveOperationsButton.isEnabled = true
+        } else {
+            saveGCDButton.isEnabled = false
+            saveOperationsButton.isEnabled = false
         }
     }
 }

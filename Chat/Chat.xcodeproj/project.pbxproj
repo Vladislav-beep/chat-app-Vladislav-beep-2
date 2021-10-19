@@ -23,6 +23,7 @@
 		B977ECDD271302F70043D800 /* ThemesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B977ECDC271302F70043D800 /* ThemesViewController.m */; };
 		B977ECE5271308D90043D800 /* Themes.m in Sources */ = {isa = PBXBuildFile; fileRef = B977ECE4271308D90043D800 /* Themes.m */; };
 		B9BA374B26FA0D7D0037A8A5 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BA374A26FA0D7D0037A8A5 /* Logger.swift */; };
+		B9CA6C35271EAE96009A323F /* LocalStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CA6C34271EAE96009A323F /* LocalStorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		B977ECE4271308D90043D800 /* Themes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Themes.m; sourceTree = "<group>"; };
 		B977ECED271314530043D800 /* ThemesViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesViewControllerDelegate.h; sourceTree = "<group>"; };
 		B9BA374A26FA0D7D0037A8A5 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		B9CA6C34271EAE96009A323F /* LocalStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 		B916F6F926F9DE7F001E2DF0 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				B9CA6C34271EAE96009A323F /* LocalStorageManager.swift */,
 				B977ECDF271303200043D800 /* Bridging-Header.h */,
 				B9C562892718663100BA706D /* Objc Themes */,
 				B9C562882718661C00BA706D /* ThemeViewController */,
@@ -253,6 +256,7 @@
 				B9BA374B26FA0D7D0037A8A5 /* Logger.swift in Sources */,
 				B92ABBC4270AF328005F0B2A /* ConversationsListViewController.swift in Sources */,
 				B9108B5B270CAA2F00300B52 /* MessageCell.swift in Sources */,
+				B9CA6C35271EAE96009A323F /* LocalStorageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
