@@ -79,13 +79,9 @@ final class ProfileDataManager {
     // MARK: - Private methods
 
     private func fileDirectory(for dataType: DataType) -> URL? {
-        guard let folderDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
+        guard let folderDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         print(folderDirectory)
         return folderDirectory.appendingPathComponent(dataType.key).appendingPathExtension("plist")
     }
-
-
 }
 

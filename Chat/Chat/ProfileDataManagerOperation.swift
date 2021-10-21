@@ -38,8 +38,7 @@ final class ProfileDataManagerOperation {
         }
     }
     
-    public func saveValue<Value: Encodable>(_ value: Value, completion: @escaping (Result<String, FileManagerError>) -> Void)
-    {
+    public func saveValue<Value: Encodable>(_ value: Value, completion: @escaping (Result<String, FileManagerError>) -> Void) {
         operation.setTask {
             guard let fileDirectory = self.fileDirectory(for: self.dataType) else { return completion(.failure(.writeError)) }
             do {
@@ -65,7 +64,6 @@ final class ProfileDataManagerOperation {
 }
 
 class LoadOperation: Operation {
-    
     var task: (() -> Void)?
     
     func setTask(task: @escaping () -> Void) {
@@ -80,3 +78,4 @@ class LoadOperation: Operation {
         task?()
     }
 }
+

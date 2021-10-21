@@ -100,11 +100,11 @@ class ProfileViewController: UIViewController {
         profileImageView.backgroundColor = UIColor(red: 228/255, green: 232/255, blue: 43/255, alpha: 1)
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         editButton.layer.cornerRadius = 10
-        initialsLabel.isHidden = true
+        
         cancelButton.layer.cornerRadius = 8
         saveGCDButton.layer.cornerRadius = 8
         saveOperationsButton.layer.cornerRadius = 8
-        
+        initialsLabel.isHidden = true
         descriptionTextView.layer.cornerRadius = 8
         descriptionTextView.layer.borderWidth = 1
         descriptionTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -136,7 +136,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         })
-        
     }
     
     private func saveUserInfoGCD() {
@@ -267,7 +266,6 @@ class ProfileViewController: UIViewController {
         getUserInfoGCD()
     }
     
-    
     @IBAction func saveGCDButtonPressed(_ sender: UIButton) {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -285,7 +283,6 @@ class ProfileViewController: UIViewController {
     @IBAction func closeButtonPressed() {
         dismiss(animated: true)
     }
-    
     
     private var saveButtonDidTapedBefore: Bool {
         let userDefaults = UserDefaults.standard
@@ -335,7 +332,7 @@ extension ProfileViewController: UITextViewDelegate {
         saveOperationsButton.isEnabled = true
     }
 }
- 
+  
 extension ProfileViewController: UITextFieldDelegate {
     
     @objc private func textFieldChanged() {
@@ -348,6 +345,7 @@ extension ProfileViewController: UITextFieldDelegate {
         }
     }
 }
+
 
 
 
