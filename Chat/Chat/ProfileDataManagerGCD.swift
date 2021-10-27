@@ -7,8 +7,6 @@
 
 import UIKit
 
-typealias GetProfileResponse = Result<Profile, FileManagerError>
-
 struct Profile: Codable {
     let fullName: String?
     let description: String?
@@ -42,11 +40,11 @@ final class ProfileDataManager {
     private let dataType = DataType.profile
     private let profileKey = "Profile"
 
-    let myQueue = DispatchQueue(label: "ProfileDataManager", attributes: .concurrent)
+    private let myQueue = DispatchQueue(label: "ProfileDataManager", attributes: .concurrent)
 
     // MARK: - Public methods
 
-    func getValue<Value: Decodable>(completion: @escaping (Result<Value, FileManagerError>) -> Void) {
+     func getValue<Value: Decodable>(completion: @escaping (Result<Value, FileManagerError>) -> Void) {
 
         myQueue.async {
             guard let fileDirectory = self.fileDirectory(for: self.dataType) else { return completion(.failure(.readError)) }
@@ -80,8 +78,6 @@ final class ProfileDataManager {
 
     private func fileDirectory(for dataType: DataType) -> URL? {
         guard let folderDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
-        print(folderDirectory)
         return folderDirectory.appendingPathComponent(dataType.key).appendingPathExtension("plist")
     }
 }
-

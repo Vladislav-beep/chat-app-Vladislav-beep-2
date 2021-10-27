@@ -15,7 +15,6 @@ class ThemesSwiftViewController: UIViewController {
     
     var callBack: ((UIColor) -> Void)?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         themeOneButton.layer.cornerRadius = 8

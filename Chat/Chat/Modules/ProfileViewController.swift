@@ -14,9 +14,7 @@ class ProfileViewController: UIViewController {
     private let logger = Logger.shared
     private let profileDataManager = ProfileDataManager()
     private let profileDataManagerOperation = ProfileDataManagerOperation()
-    private let dataManager = ProfileDataManagerOperation()
-    
-    
+  
     // MARK: UI
     
     private lazy var imagePicker: UIImagePickerController = {
@@ -26,19 +24,19 @@ class ProfileViewController: UIViewController {
     
     // MARK: IB Outlets
     
-    @IBOutlet var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet var editProfileImageButton: UIButton!
-    @IBOutlet var saveOperationsButton: UIButton!
-    @IBOutlet var saveGCDButton: UIButton!
-    @IBOutlet var cancelButton: UIButton!
-    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var editProfileImageButton: UIButton!
+    @IBOutlet private var saveOperationsButton: UIButton!
+    @IBOutlet private var saveGCDButton: UIButton!
+    @IBOutlet private var cancelButton: UIButton!
+    @IBOutlet private var editButton: UIButton!
     
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet var fullNameTextField: UITextField!
-    @IBOutlet var descriptionTextView: UITextView!
+    @IBOutlet private var profileImageView: UIImageView!
+    @IBOutlet private var fullNameTextField: UITextField!
+    @IBOutlet private var descriptionTextView: UITextView!
     
-    @IBOutlet var textViewPlaceholderLabel: UILabel!
-    @IBOutlet weak var initialsLabel: UILabel!
+    @IBOutlet private var textViewPlaceholderLabel: UILabel!
+    @IBOutlet private var initialsLabel: UILabel!
     
     // MARK: ViewController Lifecycle
     
@@ -47,6 +45,7 @@ class ProfileViewController: UIViewController {
         
         setupAppearance()
         imagePicker.delegate = self
+        fullNameTextField.delegate = self
         descriptionTextView.delegate = self
         
         logger.logPrint(methodName: #function)
@@ -58,6 +57,10 @@ class ProfileViewController: UIViewController {
         getUserInfoGCD()
         }
     }
+    
+//    func getprofileName() -> String {
+//       return fullNameTextField.text
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,9 +76,11 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         logger.logPrint(methodName: #function)
         print("frame from viewDidAppear: \(editButton.frame)")
-        // Frame различается, т.к. метод viewDidload берет данные из storyboard (т.е. frame для iphone SE). Auto Layout срабатывает уже после метода viewDidload и frame изменяется для экрана iphone X.
+        // Frame различается, т.к. метод viewDidload берет данные из storyboard (т.е. frame для iphone SE).
+        // Auto Layout срабатывает уже после метода viewDidload и frame изменяется для экрана iphone X.
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -97,14 +102,13 @@ class ProfileViewController: UIViewController {
     // MARK: Private functions
     
     private func setupAppearance() {
-        profileImageView.backgroundColor = UIColor(red: 228/255, green: 232/255, blue: 43/255, alpha: 1)
+        profileImageView.backgroundColor = UIColor(red: 228 / 255, green: 232 / 255, blue: 43 / 255, alpha: 1)
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         editButton.layer.cornerRadius = 10
-        
         cancelButton.layer.cornerRadius = 8
         saveGCDButton.layer.cornerRadius = 8
         saveOperationsButton.layer.cornerRadius = 8
-        initialsLabel.isHidden = true
+        
         descriptionTextView.layer.cornerRadius = 8
         descriptionTextView.layer.borderWidth = 1
         descriptionTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -131,6 +135,8 @@ class ProfileViewController: UIViewController {
                     self.profileImageView.image = UIImage(data: profile.avatarImageData ?? Data())
                     self.fullNameTextField.text = profile.fullName
                     self.descriptionTextView.text = profile.description
+                    self.setupInitials()
+            
                 case .failure(let error):
                     self.showNegativStorageManagerAlert(message: error.message)
                 }
@@ -180,23 +186,36 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    private func setupInitials() {
+        if self.profileImageView.image == nil {
+            self.initialsLabel.text = self.takeInitials()
+        } else {
+            self.initialsLabel.text = ""
+        }
+    }
+    
     private func showImagePickerAlert() {
         let alert = UIAlertController(title: "Profile photo", message: nil, preferredStyle: .actionSheet)
         
-        let actionPhoto = UIAlertAction(title: "Photo library", style: .default) { (alert) in
+        let actionPhoto = UIAlertAction(title: "Photo library", style: .default) { (_) in
             self.chooseImagePicker(source: .photoLibrary)
         }
         
-        let actionCamera = UIAlertAction(title: "Take photo", style: .default) { (alert) in
+        let actionCamera = UIAlertAction(title: "Take photo", style: .default) { (_) in
             self.chooseImagePicker(source: .camera)
         }
         
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addAction(actionPhoto)
-        alert.addAction(actionCamera)
-        alert.addAction(actionCancel)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alert.addAction(actionCamera)
+        }
         
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            alert.addAction(actionPhoto)
+        }
+        
+        alert.addAction(actionCancel)
         present(alert, animated: true)
     }
     
@@ -231,7 +250,7 @@ class ProfileViewController: UIViewController {
         let formatter = PersonNameComponentsFormatter()
         guard let components = formatter.personNameComponents(from: "\(fullNameTextField.text ?? "")") else { return ""}
         formatter.style = .abbreviated
-
+        
         return formatter.string(from: components)
     }
     
@@ -301,7 +320,7 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         profileImageView.image = info[.editedImage] as? UIImage
         initialsLabel.text = ""
@@ -309,15 +328,26 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
+           
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.allowsEditing = true
+                imagePicker.sourceType = source
+    
+                present(imagePicker, animated: true)
             
-            present(imagePicker, animated: true)
         }
-    }
+    
+//    func chooseImagePicker(source: UIImagePickerController.SourceType) {
+//        if UIImagePickerController.isSourceTypeAvailable(source) {
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.allowsEditing = true
+//            imagePicker.sourceType = source
+//
+//            present(imagePicker, animated: true)
+//        }
+//    }
 }
 
 extension ProfileViewController: UITextViewDelegate {
@@ -330,6 +360,14 @@ extension ProfileViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         saveGCDButton.isEnabled = true
         saveOperationsButton.isEnabled = true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
     }
 }
   
@@ -344,9 +382,9 @@ extension ProfileViewController: UITextFieldDelegate {
             saveOperationsButton.isEnabled = false
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            self.view.endEditing(true)
+            return true
+        }
 }
-
-
-
-
-

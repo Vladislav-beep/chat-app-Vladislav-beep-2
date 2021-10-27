@@ -34,7 +34,7 @@ enum Theme: Int {
         case .default:
             return .blue
         case .graphical:
-            return UIColor(red: 143.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+            return UIColor(red: 143.0 / 255.0, green: 143.0 / 255.0, blue: 43.0 / 255.0, alpha: 1.0)
         case .dark:
             return .white
         }
@@ -45,7 +45,7 @@ enum Theme: Int {
         case .default:
             return .black
         case .graphical:
-            return UIColor(red: 143.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+            return UIColor(red: 143.0 / 255.0, green: 143.0 / 255.0, blue: 43.0 / 255.0, alpha: 1.0)
         case .dark:
             return .white
         }
@@ -59,6 +59,3 @@ enum Theme: Int {
         UINavigationBar.appearance().tintColor = barTintColor
     }
 }
-
-
-

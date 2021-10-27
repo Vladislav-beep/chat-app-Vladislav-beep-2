@@ -4,7 +4,6 @@
 //
 //  Created by Владислав Сизонов on 04.10.2021.
 
-
 import UIKit
 
 protocol ConversationCellConfigurationProtocol: AnyObject {
@@ -50,7 +49,6 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         }
     }
 
-
     override func layoutSubviews() {
         super.layoutSubviews()
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
@@ -71,20 +69,22 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         }
     }
 
-    func configureCell(chat: PersonChat?) {
-        name = chat?.name
-        online = chat?.online ?? false
-        hasUnreadMessages = chat?.hasUnreadMessages ?? false
-    
-        if let lastMessage = chat?.messages.last {
-        message = lastMessage?.messagetext
-        date = lastMessage?.dateOfCreation
-        }
+    func configureCell(channel: Channel?) {
+        name = channel?.name
+      //  online = chat?.online ?? false
+      //  hasUnreadMessages = chat?.hasUnreadMessages ?? false
+        message = channel?.lastMessage
+        date = channel?.lastActivity
+//        if let lastMessage = chat?.messages.last {
+//        message = lastMessage?.messagetext
+//        date = lastMessage?.dateOfCreation
+//        }
         
        checkMessage()
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         isOnlineIndicator.isHidden = true
         profileImage.image = nil
         nameLable.text = nil
@@ -93,8 +93,7 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
     }
     
     func checkMessage() {
-        
-        if message == nil {
+        if message == "" || message == nil {
         messageLabel.text = "No messages yet"
         messageLabel.font = UIFont(name: "Didot", size: 17)
         } else {

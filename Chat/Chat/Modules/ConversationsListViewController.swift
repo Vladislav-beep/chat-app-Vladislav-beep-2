@@ -6,16 +6,28 @@
 //
 
 import UIKit
-
+import Firebase
 
 class ConversationsListViewController: UITableViewController, UISearchBarDelegate {
     
+    @IBOutlet var addChannelButton: UIBarButtonItem!
     @IBOutlet weak var searchBar: UISearchBar!
     
     private var users = PersonChat.getPersonChat()
     private let sectionNames = ["Online", "History"]
     
     private var filterdUsers: [PersonChat]?
+    
+    private lazy var db = Firestore.firestore()
+    
+    private lazy var referenceChannel = db.collection("channels")
+    private lazy var referenceMessage: CollectionReference = {
+        guard let channelIdentifier = channel?.identifier else { fatalError() }
+        return db.collection("channels").document(channelIdentifier).collection("messages")
+    }()
+    
+    var channel: Channel?
+    var channelArray = [Channel]()
     
     private lazy var navigationImage: UIButton = {
         let button = UIButton()
@@ -27,6 +39,9 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        let deviceID = UIDevice.current.identifierForVendor!.uuidString
+           print(deviceID)
+        getChannels()
     }
     
     override func viewWillLayoutSubviews() {
@@ -43,12 +58,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         showImage(false)
+        
     }
     
     @IBAction func settingsButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: "showSwiftTheme", sender: nil)
     }
-    
     
     @objc private func imageTapped() {
         performSegue(withIdentifier: "showProfile", sender: nil)
@@ -79,12 +94,37 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     }
     // MARK: - Prepare Data Source
     
-    private var onlineUsers: [PersonChat] {
-        users.filter {$0.online }
-    }
+//    private var onlineUsers: [PersonChat] {
+//        users.filter {$0.online }
+//    }
+//
+//    private var offlineUsers: [PersonChat] {
+//        users.filter {!$0.online }
+//    }
     
-    private var offlineUsers: [PersonChat] {
-        users.filter {!$0.online }
+    private func getChannels() {
+        channelArray = []
+        referenceChannel.addSnapshotListener { [weak self] (snapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                    return
+                }
+            
+            if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    let data = document.data()
+                    let time = (data["lastActivity"] as? Timestamp)?.dateValue()
+                    self?.channel = Channel(identifier: document.documentID,
+                                             name: data["name"] as? String ?? "",
+                                             lastMessage: data["lastMessage"] as? String ?? "",
+                                             lastActivity: time)
+                    self?.channelArray.append(self?.channel ?? Channel(identifier: "", name: "", lastMessage: "", lastActivity: Date()))
+                    
+                 //   print(self?.channel)
+                }
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     private func setupNavigationBar() {
@@ -100,8 +140,33 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         ])
     }
     
+    private func showAlert(message: String, title: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Entel channel name"
+        }
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+            guard let textField = alert.textFields?.first, textField.text != "" else { return }
+            self.referenceChannel.addDocument(data: ["name": "\(textField.text ?? "")"])
+            self.tableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+        
+    }
+    
     private func showImage(_ show: Bool) {
         navigationImage.alpha = show ? 1.0 : 0.0
+    }
+    
+    @IBAction func addChannelButtonPressed(_ sender: UIBarButtonItem) {
+        showAlert(message: "", title: "Add channel")
     }
     
     // MARK: - Table view data source
@@ -110,29 +175,40 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         80
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        sectionNames[section]
-    }
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        sectionNames.count
-    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        sectionNames[section]
+//    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        sectionNames.count
+//    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return onlineUsers.count
-        } else {
-            return offlineUsers.count
-        }
+
+        channelArray.count
+        //        if section == 0 {
+//            return onlineUsers.count
+//        } else {
+//            return offlineUsers.count
+//        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "conversationsListCell", for: indexPath) as? ConversationsListCell
         
-        var user: PersonChat?
-        indexPath.section == 0 ? (user = onlineUsers[indexPath.row]) : ( user = offlineUsers[indexPath.row])
+        channel = channelArray[indexPath.row]
         
-        guard let notNilUser = user else { return UITableViewCell() }
-        cell?.configureCell(chat: notNilUser)
+        cell?.configureCell(channel: channel)
+        
+//        cell?.nameLable.text = channel?.name
+//        cell?.messageLabel.text = channel?.lastMessage
+//        cell?.date = channel?.lastActivity
+        
+       // cell?.dateLabel.text = getdate(date: (channel?.lastActivity)!)
+//        var user: PersonChat?
+//        indexPath.section == 0 ? (user = onlineUsers[indexPath.row]) : ( user = offlineUsers[indexPath.row])
+//
+//        guard let notNilUser = user else { return UITableViewCell() }
+//        cell?.configureCell(chat: notNilUser)
         return cell ?? UITableViewCell()
     }
     
@@ -140,7 +216,7 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier  == "showObjcTheme" {
+        if segue.identifier == "showObjcTheme" {
             guard let destination = segue.destination as? ThemesViewController else { return }
             destination.delegate = self
         } else if segue.identifier == "showSwiftTheme" {
@@ -149,17 +225,21 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
                 self?.logThemeChanging(selectedTheme: color)
             }
         
-        } else  {
+        } else {
             let selectedIndexPath = tableView.indexPathForSelectedRow
             guard let conversationVC = segue.destination as? ConversationViewController else { return }
-            var user: PersonChat?
+            channel = channelArray[selectedIndexPath?.row ?? 0]
+            conversationVC.channel = channel
+          //  conversationVC.referenceMessage = referenceMessage
             
-            if selectedIndexPath?.section == 0 {
-                user = onlineUsers[selectedIndexPath?.row ?? 0]
-            } else {
-                user = offlineUsers[selectedIndexPath?.row ?? 0]
-            }
-            conversationVC.setUser(personChat: user)
+//            var user: PersonChat?
+//
+//            if selectedIndexPath?.section == 0 {
+//                user = onlineUsers[selectedIndexPath?.row ?? 0]
+//            } else {
+//                user = offlineUsers[selectedIndexPath?.row ?? 0]
+//            }
+//            conversationVC.setUser(personChat: user)
         }
     }
     

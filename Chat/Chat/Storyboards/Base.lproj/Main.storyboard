@@ -9,84 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Themes View Controller-->
-        <scene sceneID="seD-5e-zhA">
-            <objects>
-                <viewController id="Lqd-9Q-a7B" customClass="ThemesViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="R3w-sM-22I">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="42" translatesAutoresizingMaskIntoConstraints="NO" id="hfX-AA-44t">
-                                <rect key="frame" x="60" y="132" width="200" height="174"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieQ-TE-3jG">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="30"/>
-                                        <color key="backgroundColor" red="0.99873155359999999" green="0.95336097480000004" blue="0.63348627089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Тема 1"/>
-                                        <connections>
-                                            <action selector="themeOneButtonPressed:" destination="Lqd-9Q-a7B" eventType="touchUpInside" id="TNu-CZ-CmN"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aaf-3u-0yQ">
-                                        <rect key="frame" x="0.0" y="72" width="200" height="30"/>
-                                        <color key="backgroundColor" red="0.99873155359999999" green="0.95336097480000004" blue="0.63348627089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Тема 2"/>
-                                        <connections>
-                                            <action selector="themeTwoButtonPresssed:" destination="Lqd-9Q-a7B" eventType="touchUpInside" id="QtY-IB-OVz"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q0s-5B-dvo">
-                                        <rect key="frame" x="0.0" y="144" width="200" height="30"/>
-                                        <color key="backgroundColor" red="0.99873155359999999" green="0.95336097480000004" blue="0.63348627089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Тема 3"/>
-                                        <connections>
-                                            <action selector="themeThreeButtonPressed:" destination="Lqd-9Q-a7B" eventType="touchUpInside" id="ciH-2W-0CY"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xHu-VZ-qgR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JiL-ov-v6Y">
-                                        <rect key="frame" x="242" y="28" width="60" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="hA8-7P-p0c"/>
-                                        </constraints>
-                                        <state key="normal" title="Закрыть"/>
-                                        <connections>
-                                            <action selector="closeButtonPressed:" destination="Lqd-9Q-a7B" eventType="touchUpInside" id="G43-xl-1yd"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.97578459979999999" green="0.96107929940000003" blue="0.76708835360000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="JiL-ov-v6Y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xHu-VZ-qgR" secondAttribute="leading" constant="242" id="69w-to-gbJ"/>
-                                    <constraint firstAttribute="height" constant="86" id="MX2-oi-ye3"/>
-                                    <constraint firstAttribute="bottom" secondItem="JiL-ov-v6Y" secondAttribute="bottom" constant="28" id="gDj-GK-kQO"/>
-                                    <constraint firstAttribute="trailing" secondItem="JiL-ov-v6Y" secondAttribute="trailing" constant="18" id="h5l-0L-IDJ"/>
-                                    <constraint firstItem="JiL-ov-v6Y" firstAttribute="top" secondItem="xHu-VZ-qgR" secondAttribute="top" constant="28" id="iLs-LB-DdR"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="rDf-ax-DS7"/>
-                        <color key="backgroundColor" red="0.99749022720000002" green="0.86729550359999996" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="hfX-AA-44t" firstAttribute="top" secondItem="rDf-ax-DS7" secondAttribute="top" constant="132" id="0AG-cM-eSL"/>
-                            <constraint firstItem="xHu-VZ-qgR" firstAttribute="trailing" secondItem="rDf-ax-DS7" secondAttribute="trailing" id="Azm-OA-a9O"/>
-                            <constraint firstItem="hfX-AA-44t" firstAttribute="centerX" secondItem="R3w-sM-22I" secondAttribute="centerX" id="GAE-Xe-2OT"/>
-                            <constraint firstItem="hfX-AA-44t" firstAttribute="leading" secondItem="rDf-ax-DS7" secondAttribute="leading" constant="60" id="L1v-Yw-1WG"/>
-                            <constraint firstItem="rDf-ax-DS7" firstAttribute="trailing" secondItem="hfX-AA-44t" secondAttribute="trailing" constant="60" id="TkU-3i-dDo"/>
-                            <constraint firstItem="xHu-VZ-qgR" firstAttribute="leading" secondItem="rDf-ax-DS7" secondAttribute="leading" id="hZY-gG-Qng"/>
-                            <constraint firstItem="xHu-VZ-qgR" firstAttribute="top" secondItem="rDf-ax-DS7" secondAttribute="top" id="qxZ-HW-9h3"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3pu-b8-Zef" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1582.5" y="-1090.1408450704225"/>
-        </scene>
         <!--Themes Swift View Controller-->
         <scene sceneID="st3-Za-6jK">
             <objects>
@@ -116,7 +38,6 @@
                                         </state>
                                         <connections>
                                             <action selector="themeTwoButtonPressed:" destination="Tpu-uY-Ini" eventType="touchUpInside" id="uIn-u2-BHO"/>
-                                            <action selector="themeTwoButtonPresssed:" destination="Lqd-9Q-a7B" eventType="touchUpInside" id="x22-Tt-4WU"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4v-fx-DxU">
@@ -124,7 +45,6 @@
                                         <color key="backgroundColor" red="0.99873155359999999" green="0.95336097480000004" blue="0.63348627089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Шампань"/>
                                         <connections>
-                                            <action selector="themeThreeButtonPressed:" destination="Lqd-9Q-a7B" eventType="touchUpInside" id="e8T-be-ecX"/>
                                             <action selector="themeThreeButtonPressed:" destination="Tpu-uY-Ini" eventType="touchUpInside" id="huT-2s-ZU1"/>
                                         </connections>
                                     </button>
@@ -164,7 +84,7 @@
             </objects>
             <point key="canvasLocation" x="324" y="-798"/>
         </scene>
-        <!--Tinkoff Chat-->
+        <!--Channels-->
         <scene sceneID="DaK-38-CG9">
             <objects>
                 <tableViewController id="IUB-hO-aMo" customClass="ConversationsListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
@@ -261,7 +181,7 @@
                             <outlet property="delegate" destination="IUB-hO-aMo" id="qPs-I0-F8c"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="NFM-Yf-loE">
+                    <navigationItem key="navigationItem" title="Channels" id="NFM-Yf-loE">
                         <barButtonItem key="backBarButtonItem" title=" " id="xsQ-zA-ZYx"/>
                         <leftBarButtonItems>
                             <barButtonItem title="Item" image="navBarGear" id="yr5-Zd-QTM">
@@ -269,15 +189,15 @@
                                     <action selector="settingsButtonPressed:" destination="IUB-hO-aMo" id="7zF-vI-vOD"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="action" id="qOz-kX-F1x">
+                            <barButtonItem systemItem="add" id="CCH-Kj-fyw">
                                 <connections>
-                                    <action selector="themeButtonPressed:" destination="IUB-hO-aMo" id="hbz-Me-Hjc"/>
-                                    <segue destination="Lqd-9Q-a7B" kind="presentation" identifier="showObjcTheme" id="U6N-od-DXi"/>
+                                    <action selector="addChannelButtonPressed:" destination="IUB-hO-aMo" id="3as-KP-BCo"/>
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="addChannelButton" destination="CCH-Kj-fyw" id="Afe-Hk-Wb2"/>
                         <outlet property="searchBar" destination="XLh-8m-cxk" id="opk-lI-UFl"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="showProfile" modalPresentationStyle="automatic" id="BEv-lF-RsM"/>
                         <segue destination="Tpu-uY-Ini" kind="presentation" identifier="showSwiftTheme" id="fex-gx-hV1"/>
