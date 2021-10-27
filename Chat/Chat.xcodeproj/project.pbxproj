@@ -104,10 +104,7 @@
 		B916F6F926F9DE7F001E2DF0 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				B93C9DB62721551000E3051B /* ProfileDataManagerGCD.swift */,
-				B93C9DBB27216F0000E3051B /* ProfileDataManagerOperation.swift */,
-				B93512212726E68A00DE8934 /* Channel.swift */,
-				B977ECDF271303200043D800 /* Bridging-Header.h */,
+				B9C12FF827294D8E004602FB /* Managers */,
 				B9C562892718663100BA706D /* Objc Themes */,
 				B9C562882718661C00BA706D /* ThemeViewController */,
 				B9C84B07270451EA00ED8534 /* Storyboards */,
@@ -119,6 +116,15 @@
 				B916F70326F9DE83001E2DF0 /* Assets.xcassets */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		B9C12FF827294D8E004602FB /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				B93C9DBB27216F0000E3051B /* ProfileDataManagerOperation.swift */,
+				B93C9DB62721551000E3051B /* ProfileDataManagerGCD.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		B9C562882718661C00BA706D /* ThemeViewController */ = {
@@ -133,6 +139,7 @@
 		B9C562892718663100BA706D /* Objc Themes */ = {
 			isa = PBXGroup;
 			children = (
+				B977ECDF271303200043D800 /* Bridging-Header.h */,
 				B977ECDB271302F70043D800 /* ThemesViewController.h */,
 				B977ECDC271302F70043D800 /* ThemesViewController.m */,
 				B977ECED271314530043D800 /* ThemesViewControllerDelegate.h */,
@@ -184,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				B92ABBCD270B078B005F0B2A /* PersonChat.swift */,
+				B93512212726E68A00DE8934 /* Channel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

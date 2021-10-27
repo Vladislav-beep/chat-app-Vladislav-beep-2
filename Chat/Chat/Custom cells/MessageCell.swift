@@ -141,7 +141,6 @@ final class ChatMessageCell: UITableViewCell {
 //        trailingConstraint?.isActive = true
 //    }
     
-   // let author = 
     
     private func setupConstraints() {
         addSubview(bubbleView)
