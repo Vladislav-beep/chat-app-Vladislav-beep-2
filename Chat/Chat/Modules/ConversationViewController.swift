@@ -51,9 +51,9 @@ class ConversationViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-//        let newMessage = Message(content: "!!!!!?",
+//        let newMessage = Message(content: "Hello, man",
 //                                 created: Date(),
-//                                 senderId: UIDevice.current.identifierForVendor!.uuidString,
+//                                 senderId: "Hello",
 //                                 senderName: "Egor")
 //        referenceMessage.addDocument(data: newMessage.toDict)
         tableView.reloadData()
@@ -70,31 +70,52 @@ class ConversationViewController: UITableViewController {
     }
     
     private func getMessages() {
-        messages = []
+        
         referenceMessage.addSnapshotListener { [weak self] snapshot, error in
+            guard let self = self else {return}
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
             if let documents = snapshot?.documents {
+                self.messages.removeAll()
                 for document in documents {
                     let data = document.data()
                     let time = (data["created"] as? Timestamp)?.dateValue()
-                    self?.message = Message(content: data["content"] as? String ?? "",
+                    self.message = Message(content: data["content"] as? String ?? "",
                                             created: time ?? Date(),
-                                            senderId: data["senderId"] as? String ?? "",
+                                            senderId: data["senderID"] as? String ?? "",
                                             senderName: data["senderName"] as? String ?? "")
-                    self?.messages.append(self?.message ?? Message(content: "",
+                    self.messages.append(self.message ?? Message(content: "",
                                                                    created: Date(),
                                                                    senderId: "",
                                                                    senderName: ""))
                 }
-                self?.tableView.reloadData()
+                self.messages.sort { $0.created < $1.created }
+                
+                DispatchQueue.main.async {
+                self.tableView.reloadData()
+                }
+                
+                guard self.messages.count - 1 >= 0 else { return }
+                let lastRow = self.messages.count - 1
+                DispatchQueue.main.async {
+                    self.tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
+                }
+                
             }
         }
     }
     
-   private func setupNavigationBar() {
+    @IBAction func sendMessage(_ sender: UIBarButtonItem) {
+        let newMessage = Message(content: "Hello, man",
+                                         created: Date(),
+                                         senderId: UIDevice.current.identifierForVendor!.uuidString,
+                                         senderName: "Vlad")
+                referenceMessage.addDocument(data: newMessage.toDict)
+              //  tableView.reloadData()
+    }
+    private func setupNavigationBar() {
       
         navigationView.addSubview(navImageView)
         navigationView.addSubview(navLabel)

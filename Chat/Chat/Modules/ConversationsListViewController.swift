@@ -103,7 +103,7 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
 //    }
     
     private func getChannels() {
-        channelArray = []
+        
         referenceChannel.addSnapshotListener { [weak self] (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
@@ -111,7 +111,10 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
                 }
             
             if let snapshot = snapshot {
+                self?.channelArray.removeAll()
+                print("вызвалось")
                 for document in snapshot.documents {
+                   
                     let data = document.data()
                     let time = (data["lastActivity"] as? Timestamp)?.dateValue()
                     self?.channel = Channel(identifier: document.documentID,
@@ -119,9 +122,10 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
                                              lastMessage: data["lastMessage"] as? String ?? "",
                                              lastActivity: time)
                     self?.channelArray.append(self?.channel ?? Channel(identifier: "", name: "", lastMessage: "", lastActivity: Date()))
-                    
                  //   print(self?.channel)
                 }
+                self?.channelArray.sort { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() }
+                
                 self?.tableView.reloadData()
             }
         }

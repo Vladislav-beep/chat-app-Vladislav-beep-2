@@ -21,14 +21,12 @@ final class ChatMessageCell: UITableViewCell {
         profileDataManagerGCD.getValue(completion: { [weak self] (result: Result<Profile, FileManagerError>) in
             guard let self = self else { return }
 
-            DispatchQueue.main.async {
                 switch result {
                 case .success(let profile):
                     self.author = profile.fullName ?? ""
                     print(self.author)
                 case .failure(let error):
                     print(error.localizedDescription)
-                }
             }
         })
         }
@@ -45,7 +43,6 @@ final class ChatMessageCell: UITableViewCell {
         label.numberOfLines = 1
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
-      
         return label
     }()
     
@@ -76,7 +73,7 @@ final class ChatMessageCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         backgroundColor = .clear
-        setupConstraints()
+       // setupConstraints()
     }
     
      var chatMessage: Message? {
@@ -91,10 +88,12 @@ final class ChatMessageCell: UITableViewCell {
             dateLabel.textColor = #colorLiteral(red: 0.5999478698, green: 0.6000345945, blue: 0.5999205709, alpha: 1)
             
             authorLabel.text = chatMessage?.senderName
-           // print("\(authorLabel.text) - author from didset")
+            
+            print("\(authorLabel.text) - author from didset")
             authorLabel.font = .boldSystemFont(ofSize: 12)
             
             changeBackground()
+            setupConstraints()
             layoutConstraints()
         }
     }
@@ -102,10 +101,10 @@ final class ChatMessageCell: UITableViewCell {
     private func changeBackground() {
         
     //   bubbleView.backgroundColor = UIColor(red: 0.875, green: 0.875, blue: 0.875, alpha: 1)
-        bubbleView.backgroundColor = chatMessage?.senderId == UIDevice.current.identifierForVendor!.uuidString
+        bubbleView.backgroundColor = chatMessage?.senderId != UIDevice.current.identifierForVendor?.uuidString
             ? UIColor(red: 0.875, green: 0.875, blue: 0.875, alpha: 1)
             : UIColor(red: 0.863, green: 0.969, blue: 0.773, alpha: 1)
-        print("\(chatMessage?.senderId) - background")
+        print("\(chatMessage?.senderId) - messege sender id, \(UIDevice.current.identifierForVendor?.uuidString)")
         
         if chatMessage?.content == nil {
             bubbleView.alpha = 0
@@ -113,7 +112,7 @@ final class ChatMessageCell: UITableViewCell {
     }
     
     private func layoutConstraints() {
-        if chatMessage?.senderId == UIDevice.current.identifierForVendor!.uuidString {
+        if chatMessage?.senderId != UIDevice.current.identifierForVendor!.uuidString {
             leadingConstraint?.isActive = true
             trailingConstraint?.isActive = false
         } else {
@@ -141,7 +140,6 @@ final class ChatMessageCell: UITableViewCell {
 //        trailingConstraint?.isActive = true
 //    }
     
-    
     private func setupConstraints() {
         addSubview(bubbleView)
         addSubview(stackView)
@@ -160,16 +158,14 @@ final class ChatMessageCell: UITableViewCell {
         trailingConstraint = stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         trailingConstraint?.isActive = true
         
-        if  authorLabel.text != author {
-            print("\(authorLabel.text) - label author")
-            print(author)
-            print("layout works")
+
+        if  chatMessage?.senderName != author {
             stackView.addArrangedSubview(authorLabel)
         }
+        
         stackView.addArrangedSubview(messageLabel)
         stackView.addArrangedSubview(dateLabel)
         stackView.spacing = 6
-        
     }
     
         private func getdate() -> String {
@@ -192,6 +188,9 @@ final class ChatMessageCell: UITableViewCell {
         super.prepareForReuse()
         leadingConstraint?.isActive = false
         trailingConstraint?.isActive = false
+        messageLabel.text = ""
+        authorLabel.text = ""
+        dateLabel.text = ""
     }
     
     func setChatMessage(message: Message?) {

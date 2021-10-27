@@ -230,7 +230,13 @@
                             <outlet property="delegate" destination="fSv-XN-TJx" id="f9C-rF-i4M"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4p0-AR-Ewt"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4p0-AR-Ewt">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Trn-k9-jvd">
+                            <connections>
+                                <action selector="sendMessage:" destination="fSv-XN-TJx" id="Z6C-yK-rmk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4b-sp-tSP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

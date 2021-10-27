@@ -104,6 +104,7 @@
 		B916F6F926F9DE7F001E2DF0 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				B977ECDF271303200043D800 /* Bridging-Header.h */,
 				B9C12FF827294D8E004602FB /* Managers */,
 				B9C562892718663100BA706D /* Objc Themes */,
 				B9C562882718661C00BA706D /* ThemeViewController */,
@@ -139,7 +140,6 @@
 		B9C562892718663100BA706D /* Objc Themes */ = {
 			isa = PBXGroup;
 			children = (
-				B977ECDF271303200043D800 /* Bridging-Header.h */,
 				B977ECDB271302F70043D800 /* ThemesViewController.h */,
 				B977ECDC271302F70043D800 /* ThemesViewController.m */,
 				B977ECED271314530043D800 /* ThemesViewControllerDelegate.h */,
