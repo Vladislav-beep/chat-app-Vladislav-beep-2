@@ -207,46 +207,11 @@
             </objects>
             <point key="canvasLocation" x="326" y="-27"/>
         </scene>
-        <!--Conversation View Controller-->
-        <scene sceneID="66I-YW-Ser">
-            <objects>
-                <tableViewController id="fSv-XN-TJx" customClass="ConversationViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="1jw-99-PEI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="62" id="1H8-bi-FWA" customClass="ChatMessageCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="62"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1H8-bi-FWA" id="MR7-uf-WHs">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="fSv-XN-TJx" id="Vj3-cM-JWg"/>
-                            <outlet property="delegate" destination="fSv-XN-TJx" id="f9C-rF-i4M"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="4p0-AR-Ewt">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Trn-k9-jvd">
-                            <connections>
-                                <action selector="sendMessage:" destination="fSv-XN-TJx" id="Z6C-yK-rmk"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="S4b-sp-tSP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1583" y="-340"/>
-        </scene>
         <!--Convers View Controller-->
         <scene sceneID="ZgI-rm-zh9">
             <objects>
                 <viewController id="aaO-bu-hsE" customClass="ConversViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4tU-Hp-O6t">
+                    <view key="view" contentMode="scaleToFill" id="4tU-Hp-O6t" customClass="UIScrollView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -306,12 +271,13 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="mIw-qy-ju3"/>
                     <connections>
                         <outlet property="messageTextField" destination="1T7-b4-6MJ" id="ufZ-4I-FmZ"/>
+                        <outlet property="scrollView" destination="4tU-Hp-O6t" id="Oj6-gc-lAW"/>
                         <outlet property="tableView" destination="gxU-Ri-4Z3" id="mtV-zs-ndU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aYV-zN-X8v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2456.25" y="-340.14084507042253"/>
+            <point key="canvasLocation" x="1583" y="-327"/>
         </scene>
         <!--My Profile-->
         <scene sceneID="tne-QT-ifu">
@@ -409,7 +375,7 @@
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iDy-Oi-mfZ">
                                 <rect key="frame" x="28" y="472" width="264" height="30"/>
-                                <color key="backgroundColor" red="0.13725490200000001" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="264" id="FfY-mW-hcv"/>
                                 </constraints>
@@ -418,19 +384,11 @@
                                     <action selector="cancelButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kue-Cm-XnF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mgw-fe-Seg">
-                                <rect key="frame" x="175" y="510" width="118" height="30"/>
-                                <color key="backgroundColor" red="0.13725490200000001" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Save Operations"/>
-                                <connections>
-                                    <action selector="saveOperationsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jgO-8b-Dvx"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDm-QG-zr0">
-                                <rect key="frame" x="28" y="510" width="118" height="30"/>
-                                <color key="backgroundColor" red="0.13725490200000001" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="28" y="510" width="264" height="30"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="118" id="kir-mA-1j1"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="264" id="rMD-Ro-cMS"/>
                                 </constraints>
                                 <state key="normal" title="Save GCD"/>
                                 <connections>
@@ -446,16 +404,14 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="l8V-fN-wZ8" secondAttribute="trailing" constant="40" id="0dj-UH-AFF"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iDy-Oi-mfZ" secondAttribute="trailing" constant="28" id="0xL-wN-9bV"/>
-                            <constraint firstItem="mgw-fe-Seg" firstAttribute="top" secondItem="iDy-Oi-mfZ" secondAttribute="bottom" constant="8" symbolic="YES" id="AWp-8w-kR1"/>
                             <constraint firstItem="g5y-Ms-xxy" firstAttribute="top" secondItem="5YL-Af-RzO" secondAttribute="bottom" constant="7" id="Awb-3R-lv0"/>
                             <constraint firstItem="8ot-15-bh7" firstAttribute="centerX" secondItem="l8V-fN-wZ8" secondAttribute="centerX" id="G0a-zH-RzK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="VDm-QG-zr0" secondAttribute="bottom" constant="8" id="GKS-Ut-Hmb"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gvm-9x-Khx" secondAttribute="trailing" constant="40" id="LMl-Hj-yJc"/>
                             <constraint firstItem="3Xm-Jc-2fC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="NeO-Gr-0w1"/>
                             <constraint firstItem="pB5-Op-XJP" firstAttribute="top" secondItem="gvm-9x-Khx" secondAttribute="bottom" constant="4" id="ROm-cj-x17"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mgw-fe-Seg" secondAttribute="trailing" constant="27" id="Wv5-uX-fbf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VDm-QG-zr0" secondAttribute="trailing" constant="28" id="U3Y-ud-vfR"/>
                             <constraint firstItem="GdQ-sc-wdm" firstAttribute="centerY" secondItem="g5y-Ms-xxy" secondAttribute="centerY" id="XBq-kZ-5kt"/>
-                            <constraint firstItem="mgw-fe-Seg" firstAttribute="leading" secondItem="VDm-QG-zr0" secondAttribute="trailing" constant="29" id="Zdo-4X-pB4"/>
                             <constraint firstItem="5YL-Af-RzO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Zon-yR-ch0"/>
                             <constraint firstItem="g5y-Ms-xxy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aNM-Tb-1Sy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pB5-Op-XJP" secondAttribute="trailing" constant="40" id="ak6-MQ-fzz"/>
@@ -467,7 +423,6 @@
                             <constraint firstItem="gvm-9x-Khx" firstAttribute="top" secondItem="5YL-Af-RzO" secondAttribute="bottom" constant="230" id="if8-kK-aGs"/>
                             <constraint firstItem="pB5-Op-XJP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="ijx-n0-A89"/>
                             <constraint firstItem="8ot-15-bh7" firstAttribute="centerY" secondItem="l8V-fN-wZ8" secondAttribute="centerY" id="jtD-KI-O4j"/>
-                            <constraint firstItem="VDm-QG-zr0" firstAttribute="width" secondItem="mgw-fe-Seg" secondAttribute="width" id="phv-gx-VvW"/>
                             <constraint firstItem="gvm-9x-Khx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="240" id="rQS-al-Wa7"/>
                             <constraint firstItem="5YL-Af-RzO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="sf8-Gd-dnL"/>
                             <constraint firstItem="iDy-Oi-mfZ" firstAttribute="top" secondItem="l8V-fN-wZ8" secondAttribute="bottom" constant="14" id="sfU-Yn-9Cc"/>
@@ -490,7 +445,6 @@
                         <outlet property="initialsLabel" destination="GdQ-sc-wdm" id="Xhl-Wn-HOf"/>
                         <outlet property="profileImageView" destination="g5y-Ms-xxy" id="gnv-89-n3N"/>
                         <outlet property="saveGCDButton" destination="VDm-QG-zr0" id="00C-3W-aRB"/>
-                        <outlet property="saveOperationsButton" destination="mgw-fe-Seg" id="0wu-mL-ie9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -527,6 +481,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

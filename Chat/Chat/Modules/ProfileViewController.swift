@@ -26,7 +26,6 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private var editProfileImageButton: UIButton!
-    @IBOutlet private var saveOperationsButton: UIButton!
     @IBOutlet private var saveGCDButton: UIButton!
     @IBOutlet private var cancelButton: UIButton!
     @IBOutlet private var editButton: UIButton!
@@ -102,7 +101,6 @@ class ProfileViewController: UIViewController {
         editButton.layer.cornerRadius = 10
         cancelButton.layer.cornerRadius = 8
         saveGCDButton.layer.cornerRadius = 8
-        saveOperationsButton.layer.cornerRadius = 8
         
         descriptionTextView.layer.cornerRadius = 8
         descriptionTextView.layer.borderWidth = 1
@@ -112,9 +110,7 @@ class ProfileViewController: UIViewController {
         editProfileImageButton.isEnabled = false
         cancelButton.isHidden = true
         saveGCDButton.isHidden = true
-        saveOperationsButton.isEnabled = false
         saveGCDButton.isEnabled = false
-        saveOperationsButton.isHidden = true
         fullNameTextField.isEnabled = false
         
         activityIndicator.isHidden = true
@@ -254,13 +250,11 @@ class ProfileViewController: UIViewController {
     @IBAction func editProfileImageButtonPressed(_ sender: UIButton) {
         showImagePickerAlert()
         saveGCDButton.isEnabled = true
-        saveOperationsButton.isEnabled = true
     }
     
     @IBAction func editButton(_ sender: UIButton) {
         cancelButton.isHidden = false
         saveGCDButton.isHidden = false
-        saveOperationsButton.isHidden = false
         editProfileImageButton.isEnabled = true
         
         fullNameTextField.isEnabled = true
@@ -272,7 +266,6 @@ class ProfileViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIButton) {
         cancelButton.isHidden = true
         saveGCDButton.isHidden = true
-        saveOperationsButton.isHidden = true
         editProfileImageButton.isEnabled = false
         fullNameTextField.isEnabled = false
         editButton.isHidden = false
@@ -284,7 +277,6 @@ class ProfileViewController: UIViewController {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
         saveGCDButton.isEnabled = false
-        saveOperationsButton.isEnabled = false
         
         saveUserInfoGCD()
         changeStateOfButton()
@@ -312,6 +304,8 @@ class ProfileViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Extensions
 
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -343,7 +337,6 @@ extension ProfileViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         saveGCDButton.isEnabled = true
-        saveOperationsButton.isEnabled = true
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -360,10 +353,8 @@ extension ProfileViewController: UITextFieldDelegate {
     @objc private func textFieldChanged() {
         if fullNameTextField.text?.isEmpty == false {
             saveGCDButton.isEnabled = true
-            saveOperationsButton.isEnabled = true
         } else {
             saveGCDButton.isEnabled = false
-            saveOperationsButton.isEnabled = false
         }
     }
     

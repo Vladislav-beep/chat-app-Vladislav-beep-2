@@ -16,6 +16,7 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // MARK: - Outlets
     
+    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var messageTextField: UITextField!
     
@@ -168,21 +169,23 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // MARK: - Table view data source
     
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         messages.count
     }
     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as? ChatMessageCell
         cell?.setChatMessage(message: messages[indexPath.row])
         
         return cell ?? UITableViewCell()
     }
     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+// MARK: - Extensions
 
 extension ConversViewController: UITextFieldDelegate {
     

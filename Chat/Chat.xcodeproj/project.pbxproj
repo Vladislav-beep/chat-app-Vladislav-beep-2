@@ -154,6 +154,7 @@
 		B9C84B06270451B200ED8534 /* Supporting files */ = {
 			isa = PBXGroup;
 			children = (
+				B92ABBC6270AF367005F0B2A /* ConversationViewController.swift */,
 				B916F6FC26F9DE7F001E2DF0 /* SceneDelegate.swift */,
 				B916F6FA26F9DE7F001E2DF0 /* AppDelegate.swift */,
 				B916F70826F9DE83001E2DF0 /* Info.plist */,
@@ -176,7 +177,6 @@
 			children = (
 				B916F6FE26F9DE7F001E2DF0 /* ProfileViewController.swift */,
 				B92ABBC3270AF328005F0B2A /* ConversationsListViewController.swift */,
-				B92ABBC6270AF367005F0B2A /* ConversationViewController.swift */,
 				B98B95D4272A9BE50091E9B0 /* ConversViewController.swift */,
 			);
 			path = Modules;

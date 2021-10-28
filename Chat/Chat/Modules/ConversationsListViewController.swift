@@ -16,16 +16,10 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     @IBOutlet weak var searchBar: UISearchBar!
     
     // MARK: - Private Properties
-    
-    private var users = PersonChat.getPersonChat()
-    
+        
     private lazy var db = Firestore.firestore()
     
     private lazy var referenceChannel = db.collection("channels")
-    private lazy var referenceMessage: CollectionReference = {
-        guard let channelIdentifier = channel?.identifier else { fatalError() }
-        return db.collection("channels").document(channelIdentifier).collection("messages")
-    }()
     
     private lazy var navigationImage: UIButton = {
         let button = UIButton()
@@ -45,16 +39,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        let deviceID = UIDevice.current.identifierForVendor!.uuidString
-           print(deviceID)
         getChannels()
-        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         navigationImage.layer.cornerRadius = navigationImage.layer.frame.width / 2
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,7 +56,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         showImage(false)
-        
     }
     
     // MARK: - IB Actions
@@ -110,30 +99,31 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     }
     
     private func getChannels() {
-        
         referenceChannel.addSnapshotListener { [weak self] (snapshot, error) in
             if let error = error {
                 print(error.localizedDescription)
-                    return
-                }
+                return
+            }
             
             if let snapshot = snapshot {
                 self?.channelArray.removeAll()
                 for document in snapshot.documents {
-                   
+                    
                     let data = document.data()
                     let time = (data["lastActivity"] as? Timestamp)?.dateValue()
                     self?.channel = Channel(identifier: document.documentID,
-                                             name: data["name"] as? String ?? "",
-                                             lastMessage: data["lastMessage"] as? String ?? "",
-                                             lastActivity: time)
+                                            name: data["name"] as? String ?? "",
+                                            lastMessage: data["lastMessage"] as? String ?? "",
+                                            lastActivity: time)
                     self?.channelArray.append(self?.channel ?? Channel(identifier: "", name: "", lastMessage: "", lastActivity: Date()))
-                 
                 }
+                
                 self?.channels = self?.channelArray ?? [Channel(identifier: "", name: "", lastMessage: "", lastActivity: Date())]
                 self?.channelArray.sort { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() }
                 
-                self?.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             }
         }
     }
@@ -161,7 +151,9 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let textField = alert.textFields?.first, textField.text != "" else { return }
             self.referenceChannel.addDocument(data: ["name": "\(textField.text ?? "")"])
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -206,7 +198,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
             destination.callBack = { [weak self] color in
                 self?.logThemeChanging(selectedTheme: color)
             }
-        
         } else {
             let selectedIndexPath = tableView.indexPathForSelectedRow
             guard let conversationVC = segue.destination as? ConversViewController else { return }
@@ -219,11 +210,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.showsCancelButton = true
-
         channelArray = searchText.isEmpty ? channelArray : channelArray.filter {
             return $0.name.range(of: searchText, options: .caseInsensitive) != nil
         }
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -231,7 +223,9 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         searchBar.text = ""
         searchBar.resignFirstResponder()
         channelArray = channels
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
