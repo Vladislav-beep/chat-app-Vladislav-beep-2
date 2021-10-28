@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
     private let logger = Logger.shared
     private let profileDataManager = ProfileDataManager()
     private let profileDataManagerOperation = ProfileDataManagerOperation()
-  
+    
     // MARK: UI
     
     private lazy var imagePicker: UIImagePickerController = {
@@ -35,7 +35,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet private var fullNameTextField: UITextField!
     @IBOutlet private var descriptionTextView: UITextView!
     
-    @IBOutlet private var textViewPlaceholderLabel: UILabel!
     @IBOutlet private var initialsLabel: UILabel!
     
     // MARK: ViewController Lifecycle
@@ -54,13 +53,9 @@ class ProfileViewController: UIViewController {
         fullNameTextField.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         
         if saveButtonDidTapedBefore {
-        getUserInfoGCD()
+            getUserInfoGCD()
         }
     }
-    
-//    func getprofileName() -> String {
-//       return fullNameTextField.text
-//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -128,7 +123,7 @@ class ProfileViewController: UIViewController {
     private func getUserInfoGCD() {
         profileDataManager.getValue(completion: { [weak self] (result: Result<Profile, FileManagerError>) in
             guard let self = self else { return }
-
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let profile):
@@ -136,7 +131,7 @@ class ProfileViewController: UIViewController {
                     self.fullNameTextField.text = profile.fullName
                     self.descriptionTextView.text = profile.description
                     self.setupInitials()
-            
+                    
                 case .failure(let error):
                     self.showNegativStorageManagerAlert(message: error.message)
                 }
@@ -148,10 +143,10 @@ class ProfileViewController: UIViewController {
         let profile = Profile(fullName: fullNameTextField.text,
                               description: descriptionTextView.text,
                               avatarImageData: profileImageView.image?.jpegData(compressionQuality: 0.5))
-
+        
         profileDataManager.saveValue(profile) { [weak self] result in
             guard let self = self else { return }
-
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let message):
@@ -169,10 +164,10 @@ class ProfileViewController: UIViewController {
         let profile = Profile(fullName: fullNameTextField.text,
                               description: descriptionTextView.text,
                               avatarImageData: profileImageView.image?.jpegData(compressionQuality: 0.5))
-
+        
         profileDataManagerOperation.saveValue(profile) { [weak self] result in
             guard let self = self else { return }
-
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let message):
@@ -290,7 +285,7 @@ class ProfileViewController: UIViewController {
         activityIndicator.startAnimating()
         saveGCDButton.isEnabled = false
         saveOperationsButton.isEnabled = false
-
+        
         saveUserInfoGCD()
         changeStateOfButton()
     }
@@ -328,26 +323,15 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
-           
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.allowsEditing = true
-                imagePicker.sourceType = source
-    
-                present(imagePicker, animated: true)
-            
-        }
-    
-//    func chooseImagePicker(source: UIImagePickerController.SourceType) {
-//        if UIImagePickerController.isSourceTypeAvailable(source) {
-//            let imagePicker = UIImagePickerController()
-//            imagePicker.delegate = self
-//            imagePicker.allowsEditing = true
-//            imagePicker.sourceType = source
-//
-//            present(imagePicker, animated: true)
-//        }
-//    }
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = source
+        
+        present(imagePicker, animated: true)
+        
+    }
 }
 
 extension ProfileViewController: UITextViewDelegate {
@@ -370,7 +354,7 @@ extension ProfileViewController: UITextViewDelegate {
         return true
     }
 }
-  
+
 extension ProfileViewController: UITextFieldDelegate {
     
     @objc private func textFieldChanged() {
@@ -384,7 +368,7 @@ extension ProfileViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            self.view.endEditing(true)
-            return true
-        }
+        self.view.endEditing(true)
+        return true
+    }
 }

@@ -15,13 +15,17 @@ protocol ConversationCellConfigurationProtocol: AnyObject {
 }
 
 class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProtocol {
-
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var isOnlineIndicator: UIView!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var nameLable: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-
+    
+    // MARK: - Properties
+    
     var name: String? {
         didSet {
             nameLable.text = name
@@ -40,15 +44,17 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
     }
     var online: Bool = false {
         didSet {
-            checkOnline()
+       //     checkOnline()
         }
     }
     var hasUnreadMessages: Bool = false {
         didSet {
-            checkUnreadMesage()
+       //     checkUnreadMesage()
         }
     }
-
+    
+    // MARK: - View Lifecycle
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
@@ -56,31 +62,27 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         isOnlineIndicator.layer.borderWidth = 2
         isOnlineIndicator.layer.borderColor = UIColor.white.cgColor
     }
-
-    private func checkOnline() {
-        if online {
-            isOnlineIndicator.isHidden = false
-        }
-    }
-
-    private func checkUnreadMesage() {
-        if hasUnreadMessages {
-            messageLabel.font = .boldSystemFont(ofSize: 17)
-        }
-    }
-
+    
+//    private func checkOnline() {
+//        if online {
+//            isOnlineIndicator.isHidden = false
+//        }
+//    }
+//
+//    private func checkUnreadMesage() {
+//        if hasUnreadMessages {
+//            messageLabel.font = .boldSystemFont(ofSize: 17)
+//        }
+//    }
+    
+    // MARK: - Public methods
+    
     func configureCell(channel: Channel?) {
         name = channel?.name
-      //  online = chat?.online ?? false
-      //  hasUnreadMessages = chat?.hasUnreadMessages ?? false
         message = channel?.lastMessage
         date = channel?.lastActivity
-//        if let lastMessage = chat?.messages.last {
-//        message = lastMessage?.messagetext
-//        date = lastMessage?.dateOfCreation
-//        }
         
-       checkMessage()
+        checkMessage()
     }
     
     override func prepareForReuse() {
@@ -92,27 +94,29 @@ class ConversationsListCell: UITableViewCell, ConversationCellConfigurationProto
         dateLabel.text = nil
     }
     
-    func checkMessage() {
+    // MARK: - Private methods
+    
+   private func checkMessage() {
         if message == "" || message == nil {
-        messageLabel.text = "No messages yet"
-        messageLabel.font = UIFont(name: "Didot", size: 17)
+            messageLabel.text = "No messages yet"
+            messageLabel.font = UIFont(name: "Didot", size: 17)
         } else {
             messageLabel.text = message
         }
     }
-
-   private func getdate() -> String {
+    
+    private func getdate() -> String {
         
         var stringDate = ""
-            let dateFormatter = DateFormatter()
-            if Calendar.current.isDateInToday(date ?? Date()) {
-                dateFormatter.dateFormat = "HH:mm"
-                let time = dateFormatter.string(from: date ?? Date())
-                stringDate = time
-            } else {
-                dateFormatter.dateFormat = "dd/MM/yyyy"
-                let time = dateFormatter.string(from: date ?? Date())
-                stringDate = time
+        let dateFormatter = DateFormatter()
+        if Calendar.current.isDateInToday(date ?? Date()) {
+            dateFormatter.dateFormat = "HH:mm"
+            let time = dateFormatter.string(from: date ?? Date())
+            stringDate = time
+        } else {
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let time = dateFormatter.string(from: date ?? Date())
+            stringDate = time
         }
         return stringDate
     }

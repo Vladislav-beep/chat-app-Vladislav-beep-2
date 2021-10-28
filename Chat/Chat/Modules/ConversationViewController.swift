@@ -10,16 +10,20 @@ import Firebase
 
 class ConversationViewController: UITableViewController {
     
-   // var referenceMessage: CollectionReference?
+    // MARK: - Private Properties
     
     private lazy var db = Firestore.firestore()
+    
     private lazy var referenceMessage: CollectionReference = {
-    guard let channelIdentifier = channel?.identifier else { fatalError() }
-    return db.collection("channels").document(channelIdentifier).collection("messages")
+        guard let channelIdentifier = channel?.identifier else { fatalError() }
+        return db.collection("channels").document(channelIdentifier).collection("messages")
     }()
     
-    var messages = [Message]()
-    var message: Message?
+    private var messages = [Message]()
+    private var message: Message?
+    
+    // MARK: - Public Properties
+    
     var channel: Channel?
     
     // MARK: UI
@@ -46,16 +50,16 @@ class ConversationViewController: UITableViewController {
         return view
     }()
     
-   private var user: PersonChat?
+    // MARK: - ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-//        let newMessage = Message(content: "Hello, man",
-//                                 created: Date(),
-//                                 senderId: "Hello",
-//                                 senderName: "Egor")
-//        referenceMessage.addDocument(data: newMessage.toDict)
+        //        let newMessage = Message(content: "Hello, man",
+        //                                 created: Date(),
+        //                                 senderId: "Hello",
+        //                                 senderName: "Egor")
+        //        referenceMessage.addDocument(data: newMessage.toDict)
         tableView.reloadData()
     }
     
@@ -69,10 +73,12 @@ class ConversationViewController: UITableViewController {
         navImageView.layer.cornerRadius = navImageView.layer.frame.width / 2
     }
     
+    // MARK: - Private methods
+    
     private func getMessages() {
         
         referenceMessage.addSnapshotListener { [weak self] snapshot, error in
-            guard let self = self else {return}
+            guard let self = self else { return }
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -83,18 +89,18 @@ class ConversationViewController: UITableViewController {
                     let data = document.data()
                     let time = (data["created"] as? Timestamp)?.dateValue()
                     self.message = Message(content: data["content"] as? String ?? "",
-                                            created: time ?? Date(),
-                                            senderId: data["senderID"] as? String ?? "",
-                                            senderName: data["senderName"] as? String ?? "")
+                                           created: time ?? Date(),
+                                           senderId: data["senderID"] as? String ?? "",
+                                           senderName: data["senderName"] as? String ?? "")
                     self.messages.append(self.message ?? Message(content: "",
-                                                                   created: Date(),
-                                                                   senderId: "",
-                                                                   senderName: ""))
+                                                                 created: Date(),
+                                                                 senderId: "",
+                                                                 senderName: ""))
                 }
                 self.messages.sort { $0.created < $1.created }
                 
                 DispatchQueue.main.async {
-                self.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
                 
                 guard self.messages.count - 1 >= 0 else { return }
@@ -107,16 +113,7 @@ class ConversationViewController: UITableViewController {
         }
     }
     
-    @IBAction func sendMessage(_ sender: UIBarButtonItem) {
-        let newMessage = Message(content: "Hello, man",
-                                         created: Date(),
-                                         senderId: UIDevice.current.identifierForVendor!.uuidString,
-                                         senderName: "Vlad")
-                referenceMessage.addDocument(data: newMessage.toDict)
-              //  tableView.reloadData()
-    }
     private func setupNavigationBar() {
-      
         navigationView.addSubview(navImageView)
         navigationView.addSubview(navLabel)
         
@@ -134,23 +131,27 @@ class ConversationViewController: UITableViewController {
         navigationItem.titleView = navigationView
     }
     
-    func setUser(personChat: PersonChat?) {
-        user = personChat
+    // MARK: - IB Actions
+    
+    @IBAction func sendMessage(_ sender: UIBarButtonItem) {
+        let newMessage = Message(content: "Hello, man",
+                                 created: Date(),
+                                 senderId: UIDevice.current.identifierForVendor!.uuidString,
+                                 senderName: "Vlad")
+        referenceMessage.addDocument(data: newMessage.toDict)
+        //  tableView.reloadData()
     }
     
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         messages.count
-        // user?.messages.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as? ChatMessageCell
-        
-       // cell?.messageLabel.text = messages[indexPath.row].content
-        
         cell?.setChatMessage(message: messages[indexPath.row])
+        
         return cell ?? UITableViewCell()
     }
     
