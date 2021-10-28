@@ -12,7 +12,7 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // MARK: - Dependencies
     
-    let profileDataManagerGCD = ProfileDataManager()
+    private let profileDataManagerGCD = ProfileDataManager()
     
     // MARK: - Outlets
     
@@ -107,14 +107,16 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                
-                guard self.messages.count - 1 >= 0 else { return }
-                let lastRow = self.messages.count - 1
-                DispatchQueue.main.async {
-                    self.tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
-                }
-                
+                self.scrollMessages()
             }
+        }
+    }
+    
+    private func scrollMessages() {
+        guard self.messages.count - 1 >= 0 else { return }
+        let lastRow = self.messages.count - 1
+        DispatchQueue.main.async {
+            self.tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
         }
     }
     

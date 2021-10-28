@@ -16,7 +16,7 @@ final class ChatMessageCell: UITableViewCell {
     
     // MARK: - Dependencies
     
-    let profileDataManagerGCD = ProfileDataManager()
+   private let profileDataManagerGCD = ProfileDataManager()
     
     // MARK: - Private Properties
     
