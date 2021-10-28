@@ -209,7 +209,7 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         
         } else {
             let selectedIndexPath = tableView.indexPathForSelectedRow
-            guard let conversationVC = segue.destination as? ConversationViewController else { return }
+            guard let conversationVC = segue.destination as? ConversViewController else { return }
             channel = channelArray[selectedIndexPath?.row ?? 0]
             conversationVC.channel = channel
         }
