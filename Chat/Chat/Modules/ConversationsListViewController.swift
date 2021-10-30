@@ -145,7 +145,7 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alert.addTextField { (textField) in
-            textField.placeholder = "Entel channel name"
+            textField.placeholder = "Enter channel name"
         }
         
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
@@ -161,7 +161,6 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
-        
     }
     
     private func showImage(_ show: Bool) {
