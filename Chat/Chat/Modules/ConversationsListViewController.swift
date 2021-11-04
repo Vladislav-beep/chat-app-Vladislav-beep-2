@@ -10,6 +10,10 @@ import Firebase
 
 class ConversationsListViewController: UITableViewController, UISearchBarDelegate {
     
+    // MARK: - Dependecies
+    
+    private let coreDataManager = CoreDataManager()
+    
     // MARK: - Outlets
     
     @IBOutlet var addChannelButton: UIBarButtonItem!
@@ -18,9 +22,8 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     // MARK: - Private Properties
         
     private lazy var db = Firestore.firestore()
-    
     private lazy var referenceChannel = db.collection("channels")
-    
+        
     private lazy var navigationImage: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "my profile"), for: .normal)
@@ -30,16 +33,18 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     
     // MARK: - Public Properties
     
-    var channel: Channel?
     var channelArray = [Channel]()
     var channels = [Channel]()
+    var dbChannel: DBChannel?
     
     // MARK: - ViewController Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
         getChannels()
+        coreDataManager.getChannelsFromCoreData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -100,29 +105,32 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     
     private func getChannels() {
         referenceChannel.addSnapshotListener { [weak self] (snapshot, error) in
+            guard let self = self else { return }
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
             
             if let snapshot = snapshot {
-                self?.channelArray.removeAll()
+                self.channelArray.removeAll()
                 for document in snapshot.documents {
                     
                     let data = document.data()
                     let time = (data["lastActivity"] as? Timestamp)?.dateValue()
-                    self?.channel = Channel(identifier: document.documentID,
+                    let channel = Channel(identifier: document.documentID,
                                             name: data["name"] as? String ?? "",
                                             lastMessage: data["lastMessage"] as? String ?? "",
                                             lastActivity: time)
-                    self?.channelArray.append(self?.channel ?? Channel(identifier: "", name: "", lastMessage: "", lastActivity: Date()))
+                    
+                    self.channelArray.append(channel)
+                    self.coreDataManager.saveChannelIntoCoreData(channel: channel)
                 }
                 
-                self?.channels = self?.channelArray ?? [Channel(identifier: "", name: "", lastMessage: "", lastActivity: Date())]
-                self?.channelArray.sort { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() }
+                self.channels = self.channelArray
+                self.channelArray.sort { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() }
                 
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
         }
@@ -179,7 +187,8 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "conversationsListCell", for: indexPath) as? ConversationsListCell
-        channel = channelArray[indexPath.row]
+        
+        let channel = channelArray[indexPath.row]
         cell?.configureCell(channel: channel)
         
         return cell ?? UITableViewCell()
@@ -200,8 +209,12 @@ class ConversationsListViewController: UITableViewController, UISearchBarDelegat
         } else {
             let selectedIndexPath = tableView.indexPathForSelectedRow
             guard let conversationVC = segue.destination as? ConversViewController else { return }
-            channel = channelArray[selectedIndexPath?.row ?? 0]
+            let channel = channelArray[selectedIndexPath?.row ?? 0]
+            dbChannel = coreDataManager.getDBChannel(channel: channel)
+            
+            conversationVC.coreDataManager = coreDataManager
             conversationVC.channel = channel
+            conversationVC.dbChannel = dbChannel
         }
     }
     

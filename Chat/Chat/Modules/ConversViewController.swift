@@ -7,12 +7,14 @@
 
 import UIKit
 import Firebase
+import CoreData
 
 class ConversViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Dependencies
     
     private let profileDataManagerGCD = ProfileDataManager()
+    var coreDataManager: CoreDataManager?
     
     // MARK: - Outlets
     
@@ -30,12 +32,12 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
     }()
     
     private var messages = [Message]()
-    private var message: Message?
     private var author = ""
     
     // MARK: - Public Properties
     
     var channel: Channel?
+    var dbChannel: DBChannel?
     
     // MARK: UI
     
@@ -65,8 +67,11 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerForKeyboardNotifications()
         setupMessageTextField()
         setupNavigationBar()
+        coreDataManager?.getMessagesFromCoreData()    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,9 +84,14 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
         navImageView.layer.cornerRadius = navImageView.layer.frame.width / 2
     }
     
+    deinit {
+        removeKeyboardNotifications()
+    }
+    
     // MARK: - Private methods
     
     private func getMessages() {
+        let id = dbChannel?.identifier ?? ""
         referenceMessage.addSnapshotListener { [weak self] snapshot, error in
             guard let self = self else { return }
             if let error = error {
@@ -90,17 +100,16 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             if let documents = snapshot?.documents {
                 self.messages.removeAll()
-                for document in documents {
+                 for document in documents {
                     let data = document.data()
                     let time = (data["created"] as? Timestamp)?.dateValue()
-                    self.message = Message(content: data["content"] as? String ?? "",
+                    let message = Message(content: data["content"] as? String ?? "",
                                            created: time ?? Date(),
                                            senderId: data["senderID"] as? String ?? "",
                                            senderName: data["senderName"] as? String ?? "")
-                    self.messages.append(self.message ?? Message(content: "",
-                                                                 created: Date(),
-                                                                 senderId: "",
-                                                                 senderName: ""))
+                   
+                    self.messages.append(message)
+                    self.coreDataManager?.saveMessagesIntoCoreData(message: message, id: id)
                 }
                 self.messages.sort { $0.created < $1.created }
                 
@@ -113,13 +122,13 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     private func scrollMessages() {
-        guard self.messages.count - 1 >= 0 else { return }
-        let lastRow = self.messages.count - 1
+        guard messages.count - 1 >= 0 else { return }
+        let lastRow = messages.count - 1
         DispatchQueue.main.async {
             self.tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
         }
     }
-    
+        
     private func getAuthoeNameFromFile() {
         profileDataManagerGCD.getValue(completion: { [weak self] (result: Result<Profile, FileManagerError>) in
             guard let self = self else { return }
@@ -156,11 +165,32 @@ class ConversViewController: UIViewController, UITableViewDelegate, UITableViewD
         navigationItem.titleView = navigationView
     }
     
+    // MARK: - Keyboard methods
+    
+    private func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+        }
+        
+        private func removeKeyboardNotifications() {
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
+        }
+        
+    @objc func kbWillShow(_ notification: Notification) {
+            let userInfo = notification.userInfo
+        let kbFrameSize = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+        scrollView.contentOffset = CGPoint(x: 0, y: kbFrameSize?.height ?? 0)
+        }
+        
+    @objc func kbWillHide() {
+            scrollView.contentOffset = CGPoint.zero
+        }
+    
     // MARK: - IB Actions
     
     @IBAction func sendMessageButtonTapped(_ sender: UIButton) {
-        guard messageTextField.text != ""
-        else { return }
+        guard messageTextField.text != "" else { return }
         let newMessage = Message(content: messageTextField.text ?? "",
                                  created: Date(),
                                  senderId: UIDevice.current.identifierForVendor!.uuidString,

@@ -12,7 +12,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
+    var coreDataManager = CoreDataManager()
     let logger = Logger.shared
     
     func application(_ application: UIApplication,
